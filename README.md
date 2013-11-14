@@ -1,4 +1,4 @@
-ical2json
+ical2json [![Build Status](https://travis-ci.org/adrianlee44/ical2json.png?branch=master)](https://travis-ci.org/adrianlee44/ical2json)
 ===
 A simple node package to convert iCal data (.ics file) to JSON format
 
