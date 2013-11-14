@@ -14,7 +14,7 @@ ical2json [FILES]
 ```
 
 Output:
-```
+```json
 {
   "VCALENDAR": [
     {
@@ -83,5 +83,6 @@ Output:
     -V, --version  output the version number
 ```
 
-#### Author and license
+Author and license
+---
 Adrian Lee and license under MIT
