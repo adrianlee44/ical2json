@@ -3,9 +3,9 @@ ical2json
 A simple node package to convert iCal data (.ics file) to JSON format
 
 ## Getting started
-Download from npm
+Download and install from npm
 ```
-npm install ical2json
+npm install -g ical2json
 ```
 
 To convert ics file to json
@@ -75,7 +75,7 @@ Output:
 
 ## API
 ```
-  Usage: ical2json.js [options] [FILES...]
+  Usage: ical2json [options] [FILES...]
 
   Options:
 
