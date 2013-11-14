@@ -1,0 +1,27 @@
+{
+  "name": "ical2json",
+  "version": "0.1.0",
+  "description": "A simple node package to convert ical to JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt default"
+  },
+  "keywords": [
+    "ical",
+    "json",
+    "converter"
+  ],
+  "author": "Adrian Lee",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-coffeelint": "0.0.7",
+    "matchdep": "~0.3.0"
+  },
+  "dependencies": {
+    "commander": "~2.0.0"
+  }
+}
