@@ -36,19 +36,22 @@ run = (options) ->
   files = options.args or []
 
   for file in files
-    stat = fs.statSync file
-    ext  = path.extname file
+    filePath = path.resolve cwd, file
+    continue unless fs.existsSync filePath
 
-    return unless stat.isFile() and ext is ".ics"
+    stat = fs.statSync filePath
+    ext  = path.extname filePath
 
-    filePath = path.join cwd, file
+    continue unless stat.isFile() and ext is ".ics"
+
     fs.readFile filePath, (error, buffer) ->
       throw new Error(error) if error?
 
       output = convert buffer.toString()
 
-      basename  = path.basename file, ext
-      writePath = path.join(cwd, basename) + ".json"
+      basename  = path.basename filePath, ext
+      dirname   = path.dirname filePath
+      writePath = path.join(dirname, basename) + ".json"
       fs.writeFile writePath, JSON.stringify(output, null, "  ")
 
 module.exports = {
