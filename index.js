@@ -45,27 +45,33 @@
   };
 
   run = function(options) {
-    var ext, file, filePath, files, stat, _i, _len;
+    var ext, file, filePath, files, stat, _i, _len, _results;
     files = options.args || [];
+    _results = [];
     for (_i = 0, _len = files.length; _i < _len; _i++) {
       file = files[_i];
-      stat = fs.statSync(file);
-      ext = path.extname(file);
-      if (!(stat.isFile() && ext === ".ics")) {
-        return;
+      filePath = path.resolve(cwd, file);
+      if (!fs.existsSync(filePath)) {
+        continue;
       }
-      filePath = path.join(cwd, file);
-      fs.readFile(filePath, function(error, buffer) {
-        var basename, output, writePath;
+      stat = fs.statSync(filePath);
+      ext = path.extname(filePath);
+      if (!(stat.isFile() && ext === ".ics")) {
+        continue;
+      }
+      _results.push(fs.readFile(filePath, function(error, buffer) {
+        var basename, dirname, output, writePath;
         if (error != null) {
           throw new Error(error);
         }
         output = convert(buffer.toString());
-        basename = path.basename(file, ext);
-        writePath = path.join(cwd, basename) + ".json";
+        basename = path.basename(filePath, ext);
+        dirname = path.dirname(filePath);
+        writePath = path.join(dirname, basename) + ".json";
         return fs.writeFile(writePath, JSON.stringify(output, null, "  "));
-      });
+      }));
     }
+    return _results;
   };
 
   module.exports = {
