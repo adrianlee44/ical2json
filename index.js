@@ -15,7 +15,7 @@ convert = function(source) {
       i,
       linesLength,
       lines = source.split(NEW_LINE),
-      lineArray;
+      splitAt;
 
   currentObj = output;
 
@@ -25,9 +25,14 @@ convert = function(source) {
       currentObj[currentKey] += line;
 
     } else {
-      lineArray = line.split(":");
-      currentKey = lineArray[0];
-      currentValue = lineArray[1];
+      splitAt = line.indexOf(":");
+
+      if (splitAt < 0) {
+        continue;
+      }
+
+      currentKey = line.substr(0, splitAt);
+      currentValue = line.substr(splitAt + 1);
 
       switch (currentKey) {
         case "BEGIN":
