@@ -1,3 +1,5 @@
+// Make sure lines are splited correctly
+// http://stackoverflow.com/questions/1155678/javascript-string-newline-character
 var NEW_LINE = /\r\n|\n|\r/,
     path = require("path"),
     fs = require("fs"),
