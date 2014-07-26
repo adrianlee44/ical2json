@@ -10,10 +10,15 @@ npm install -g ical2json
 
 To convert ics file to json
 ```
-ical2json [FILES]
+ical2json ./US-Holiday.ics
 ```
 
-Output:
+The json output will be written to a `.json` file in the same directory
+```
+./US-Holiday.json
+```
+
+File output:
 ```json
 {
   "VCALENDAR": [
