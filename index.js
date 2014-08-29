@@ -24,7 +24,7 @@ convert = function(source) {
   for (i = 0, linesLength = lines.length; i < linesLength; i++) {
     line = lines[i];
     if (line.charAt(0) === " ") {
-      currentObj[currentKey] += line;
+      currentObj[currentKey] += line.substr(1);
 
     } else {
       splitAt = line.indexOf(":");
