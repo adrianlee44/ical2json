@@ -13,6 +13,7 @@ convert = function(source) {
       line,
       objectNames = [],
       output = {},
+      parents,
       parentObj = {},
       i,
       linesLength,
