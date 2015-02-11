@@ -20,6 +20,7 @@ convert = function(source) {
       splitAt;
 
   currentObj = output;
+  parents = [];
 
   for (i = 0, linesLength = lines.length; i < linesLength; i++) {
     line = lines[i];
@@ -38,6 +39,7 @@ convert = function(source) {
 
       switch (currentKey) {
         case "BEGIN":
+          parents.push(parentObj);
           parentObj = currentObj;
           if (parentObj[currentValue] == null) {
             parentObj[currentValue] = [];
@@ -47,6 +49,7 @@ convert = function(source) {
           break;
         case "END":
           currentObj = parentObj;
+          parentObj = parents.shift();
           break;
         default:
           currentObj[currentKey] = currentValue;

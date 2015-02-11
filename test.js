@@ -50,3 +50,16 @@ exports["convert old newline"] = {
     test.done();
   }
 };
+
+exports["convert multi-child"] = {
+  "make sure multiple child nodes are handled correctly": function (test) {
+    eventString = "BEGIN:VEVENT\nINDEX:1\nBEGIN:VALARM\nTRIGGER:-P1DT0H0M0S\nEND:VALARM\nBEGIN:VALARM\nTRIGGER:-P0DT1H0M0S\nEND:VALARM\nEND:VEVENT\nBEGIN:VEVENT\nINDEX:2\nBEGIN:VALARM\nTRIGGER:-P1DT0H0M0S\nEND:VALARM\nBEGIN:VALARM\nTRIGGER:-P0DT1H0M0S\nEND:VALARM\nEND:VEVENT"
+    eventObjs = ical2json.convert(eventString);
+
+    test.equal(eventObjs.VEVENT.length, 2);
+    test.equal(eventObjs.VEVENT[0].VALARM.length, 2);
+    test.equal(eventObjs.VEVENT[1].VALARM.length, 2);
+
+    test.done();
+  }
+};
