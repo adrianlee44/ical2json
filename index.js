@@ -53,7 +53,14 @@ convert = function(source) {
           parentObj = parents.shift();
           break;
         default:
-          currentObj[currentKey] = currentValue;
+          if(currentObj[currentKey]) {
+            if(!Array.isArray(currentObj[currentKey])) {
+              currentObj[currentKey] = [currentObj[currentKey]];
+            }
+            currentObj[currentKey].push(currentValue);
+          } else {
+            currentObj[currentKey] = currentValue;
+          }
       }
     }
   }
