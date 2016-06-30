@@ -19,12 +19,7 @@
     "converter"
   ],
   "author": "Adrian Lee",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/adrianlee44/ical2json/blob/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
     "grunt": "^1.0.1",
