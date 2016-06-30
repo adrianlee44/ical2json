@@ -34,6 +34,6 @@
     "grunt-contrib-jshint": "~0.10.0"
   },
   "dependencies": {
-    "commander": "~2.6.0"
+    "commander": "^2.9.0"
   }
 }
