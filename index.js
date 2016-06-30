@@ -54,11 +54,10 @@ convert = function(source) {
           break;
         default:
           if(currentObj[currentKey]) {
-            if(currentObj[currentKey].constructor === Array) {
-              currentObj[currentKey].push(currentValue);
-            } else {
-              currentObj[currentKey] = [currentObj[currentKey], currentValue];
+            if(!Array.isArray(currentObj[currentKey])) {
+              currentObj[currentKey] = [currentObj[currentKey]];
             }
+            currentObj[currentKey].push(currentValue);
           } else {
             currentObj[currentKey] = currentValue;
           }
