@@ -1,3 +1,8 @@
+##v0.3.0 (2016-06-30)
+####Changes:
+- Handle multiple child nodes without BEGIN-END
+
+
 ##v0.2.0 (2015/02/11)
 ####Changes:
 - Fixed issue where multiple child nodes could get incorrectly nested
