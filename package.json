@@ -27,11 +27,11 @@
   ],
   "bin": "bin/ical2json",
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-nodeunit": "~0.3.3",
-    "grunt-contrib-watch": "~0.6.1",
-    "matchdep": "~0.3.0",
-    "grunt-contrib-jshint": "~0.10.0"
+    "grunt": "^1.0.1",
+    "grunt-contrib-nodeunit": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "matchdep": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0"
   },
   "dependencies": {
     "commander": "^2.9.0"
