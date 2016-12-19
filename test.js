@@ -26,6 +26,16 @@ exports.convert = {
   "summary": function (test) {
     test.equal(this.eventObjs.VEVENT[0].SUMMARY, "New Year\'s Day");
     test.done();
+  },
+
+  "missing :": function (test) {
+    var testString = "BEGIN:VEVENT\rDTSTART;VALUE=DATE\rEND:VEVENT";
+    eventObjs = ical2json.convert(testString);
+
+    test.notEqual(eventObjs.VEVENT, undefined);
+    test.ok(!eventObjs.VEVENT[0].hasOwnProperty('DTSTART;VALUE=DATE'));
+
+    test.done();
   }
 };
 
@@ -35,7 +45,7 @@ exports["convert CR"] = {
     eventObjs = ical2json.convert(eventString);
 
     test.notEqual(eventObjs.VEVENT, undefined);
-
+    test.equal(eventObjs.VEVENT[0]['DTSTART;VALUE=DATE'], '20130101');
     test.done();
   }
 };
