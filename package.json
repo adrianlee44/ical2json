@@ -4,7 +4,8 @@
   "description": "A simple node package to convert ical to JSON",
   "main": "index.js",
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "nyc grunt nodeunit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -22,11 +23,13 @@
   "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
+    "coveralls": "^2.11.15",
     "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-nodeunit": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "matchdep": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0"
+    "nyc": "^10.0.0"
   },
   "dependencies": {
     "commander": "^2.9.0"
