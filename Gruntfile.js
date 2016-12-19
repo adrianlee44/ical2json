@@ -13,7 +13,8 @@ module.exports = function(grunt) {
     }
   });
 
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
