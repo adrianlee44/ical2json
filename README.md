@@ -94,7 +94,3 @@ var ical2json = require("ical2json");
 
 var output = ical2json.convert(icalData);
 ```
-
-Author and license
----
-Adrian Lee and license under MIT
