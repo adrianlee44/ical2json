@@ -1,1 +1,8 @@
-node_modules
+node_modules/
+
+# Test files
+test.ics
+wrongExt.data
+
+.nyc_output/
+coverage/
