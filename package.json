@@ -30,6 +30,7 @@
     "nyc": "^10.0.0"
   },
   "dependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.9.0",
+    "q": "^1.4.1"
   }
 }

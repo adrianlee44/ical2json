@@ -3,6 +3,7 @@
 var NEW_LINE = /\r\n|\n|\r/,
     path = require("path"),
     fs = require("fs"),
+    Q = require("q"),
     cwd = process.cwd(),
     convert, run, readFile;
 
@@ -68,7 +69,7 @@ convert = function(source) {
 };
 
 run = function(options) {
-  var ext, file, filePath, files, stat, i, length;
+  var ext, file, filePath, files, stat, i, length, filePromises = [];
   files = options.args || [];
 
   for (i = 0, length = files.length; i < length; i++) {
@@ -86,18 +87,22 @@ run = function(options) {
       continue;
     }
 
-    fs.readFile(filePath, function(error, buffer) {
+    filePromises.push(Q.nfcall(fs.readFile, filePath)
+    .then(function (buffer) {
       var basename, dirname, output, writePath;
-      if (error != null) {
-        throw new Error(error);
-      }
       output = convert(buffer.toString());
       basename = path.basename(filePath, ext);
       dirname = path.dirname(filePath);
       writePath = path.join(dirname, basename) + ".json";
-      return fs.writeFile(writePath, JSON.stringify(output, null, "  "));
-    });
+
+      return Q.nfcall(fs.writeFile, writePath, JSON.stringify(output, null, "  "));
+    })
+    .fail(function (error) {
+      throw new Error(error);
+    }));
   }
+
+  return Q.all(filePromises)
 };
 
 module.exports = {
