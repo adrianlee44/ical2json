@@ -7,6 +7,12 @@ var NEW_LINE = /\r\n|\n|\r/,
     cwd = process.cwd(),
     convert, run, readFile;
 
+/**
+ * Take ical string data and convert to JSON
+ *
+ * @param {string} source
+ * @returns {Object}
+ */
 convert = function(source) {
   var currentKey = "",
       currentObj,
@@ -68,11 +74,16 @@ convert = function(source) {
   return output;
 };
 
+/**
+ * Pass in options to parse and generate JSON files
+ * @param {Object} options
+ * @return {Promise}
+ */
 run = function(options) {
-  var ext, file, filePath, files, stat, i, length, filePromises = [];
+  var ext, file, filePath, files, stat, i, filePromises = [];
   files = options.args || [];
 
-  for (i = 0, length = files.length; i < length; i++) {
+  for (i = 0; i < files.length; i++) {
     file = files[i];
     filePath = path.resolve(cwd, file);
 
