@@ -1,6 +1,6 @@
 {
   "name": "ical2json",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A simple node package to convert ical to JSON",
   "main": "index.js",
   "scripts": {

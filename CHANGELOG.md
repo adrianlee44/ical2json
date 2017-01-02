@@ -1,3 +1,9 @@
+##v1.0.0 (2017-01-03)
+####Changes:
+- Change API to return promises
+- Clean up repo
+- Add code coverage
+
 ##v0.3.0 (2016-06-30)
 ####Changes:
 - Handle multiple child nodes without BEGIN-END
