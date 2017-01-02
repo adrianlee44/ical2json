@@ -1,7 +1,9 @@
 node_modules/
 
 # Test files
+doesNotExist.ics
 test.ics
+test.json
 wrongExt.data
 
 .nyc_output/
