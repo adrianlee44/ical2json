@@ -113,7 +113,7 @@ run = function(options) {
     }));
   }
 
-  return Q.all(filePromises)
+  return Q.all(filePromises);
 };
 
 module.exports = {
