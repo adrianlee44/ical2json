@@ -1,9 +1,11 @@
-var ical2json = require("./index"),
-    fs = require("fs"),
-    eventString = "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
+'use strict';
 
-exports.convert = {
+const ical2json = require("./index");
+const fs = require("fs");
+
+exports["convert"] = {
   setUp: function (callback) {
+    let eventString = "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
     this.eventObjs = ical2json.convert(eventString);
     callback();
   },
@@ -19,7 +21,7 @@ exports.convert = {
   },
 
   "long description": function (test) {
-    var desc = "Visit http://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year\'s Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.";
+    let desc = "Visit http://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year\'s Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.";
     test.equal(this.eventObjs.VEVENT[0].DESCRIPTION, desc);
     test.done();
   },
@@ -30,8 +32,8 @@ exports.convert = {
   },
 
   "missing :": function (test) {
-    var testString = "BEGIN:VEVENT\rDTSTART;VALUE=DATE\rEND:VEVENT";
-    eventObjs = ical2json.convert(testString);
+    let testString = "BEGIN:VEVENT\rDTSTART;VALUE=DATE\rEND:VEVENT";
+    let eventObjs = ical2json.convert(testString);
 
     test.notEqual(eventObjs.VEVENT, undefined);
     test.ok(!eventObjs.VEVENT[0].hasOwnProperty('DTSTART;VALUE=DATE'));
@@ -42,8 +44,8 @@ exports.convert = {
 
 exports["convert CR"] = {
   "make sure CR is handled correctly": function (test) {
-    eventString = "BEGIN:VEVENT\rDTSTART;VALUE=DATE:20130101\rEND:VEVENT";
-    eventObjs = ical2json.convert(eventString);
+    let eventString = "BEGIN:VEVENT\rDTSTART;VALUE=DATE:20130101\rEND:VEVENT";
+    let eventObjs = ical2json.convert(eventString);
 
     test.notEqual(eventObjs.VEVENT, undefined);
     test.equal(eventObjs.VEVENT[0]['DTSTART;VALUE=DATE'], '20130101');
@@ -53,8 +55,8 @@ exports["convert CR"] = {
 
 exports["convert old newline"] = {
   "make sure CR is handled correctly": function (test) {
-    eventString = "BEGIN:VEVENT\r\nDTSTART;VALUE=DATE:20130101\r\nEND:VEVENT";
-    eventObjs = ical2json.convert(eventString);
+    let eventString = "BEGIN:VEVENT\r\nDTSTART;VALUE=DATE:20130101\r\nEND:VEVENT";
+    let eventObjs = ical2json.convert(eventString);
 
     test.notEqual(eventObjs.VEVENT, undefined);
 
@@ -64,8 +66,8 @@ exports["convert old newline"] = {
 
 exports["convert multi-child"] = {
   "make sure multiple child nodes are handled correctly": function (test) {
-    eventString = "BEGIN:VEVENT\nINDEX:1\nBEGIN:VALARM\nTRIGGER:-P1DT0H0M0S\nEND:VALARM\nBEGIN:VALARM\nTRIGGER:-P0DT1H0M0S\nEND:VALARM\nEND:VEVENT\nBEGIN:VEVENT\nINDEX:2\nBEGIN:VALARM\nTRIGGER:-P1DT0H0M0S\nEND:VALARM\nBEGIN:VALARM\nTRIGGER:-P0DT1H0M0S\nEND:VALARM\nEND:VEVENT";
-    eventObjs = ical2json.convert(eventString);
+    let eventString = "BEGIN:VEVENT\nINDEX:1\nBEGIN:VALARM\nTRIGGER:-P1DT0H0M0S\nEND:VALARM\nBEGIN:VALARM\nTRIGGER:-P0DT1H0M0S\nEND:VALARM\nEND:VEVENT\nBEGIN:VEVENT\nINDEX:2\nBEGIN:VALARM\nTRIGGER:-P1DT0H0M0S\nEND:VALARM\nBEGIN:VALARM\nTRIGGER:-P0DT1H0M0S\nEND:VALARM\nEND:VEVENT";
+    let eventObjs = ical2json.convert(eventString);
 
     test.equal(eventObjs.VEVENT.length, 2);
     test.equal(eventObjs.VEVENT[0].VALARM.length, 2);
@@ -77,16 +79,18 @@ exports["convert multi-child"] = {
 
 exports["convert multi-child w/o BEGIN-END"] =  {
   "make sure multiple child nodes are handled properly": function (test) {
-    eventString = "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nEXDATE:20111215T093000\nEXDATE:20111216T093000\nTRANSP:TRANSPARENT\nEND:VEVENT";
-    eventObjs = ical2json.convert(eventString);
+    let eventString = "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nEXDATE:20111215T093000\nEXDATE:20111216T093000\nTRANSP:TRANSPARENT\nEND:VEVENT";
+    let eventObjs = ical2json.convert(eventString);
 
     test.deepEqual(eventObjs.VEVENT[0].EXDATE, [ "20111215T093000", "20111216T093000" ]);
     test.done();
   }
 };
 
-exports.run = {
+exports["run"] = {
   setUp: function (done) {
+    let eventString = "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
+
     fs.writeFileSync("test.ics", eventString);
     fs.writeFileSync("wrongExt.data", eventString);
     done();
@@ -96,7 +100,7 @@ exports.run = {
     ical2json.run({
       args: ["doesNotExist.ics", "wrongExt.data", "test.ics"]
     })
-    .then(function () {
+    .then(() => {
       test.ok(!fs.existsSync("doesNotExist.json"));
       test.ok(!fs.existsSync("wrongExt.json"));
       test.ok(fs.existsSync("test.json"));
