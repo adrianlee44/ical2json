@@ -19,6 +19,9 @@
     "json",
     "converter"
   ],
+  "engines": {
+    "node" : ">=6.0.0"
+  },
   "author": "Adrian Lee",
   "license": "MIT",
   "bin": "bin/ical2json",
