@@ -1,11 +1,13 @@
+'use strict';
+
 // Make sure lines are splited correctly
 // http://stackoverflow.com/questions/1155678/javascript-string-newline-character
-var NEW_LINE = /\r\n|\n|\r/,
-    path = require("path"),
-    fs = require("fs"),
-    Q = require("q"),
-    cwd = process.cwd(),
-    convert, run, readFile;
+const NEW_LINE = /\r\n|\n|\r/;
+const path = require("path");
+const fs = require("fs");
+const Q = require("q");
+const cwd = process.cwd();
+let convert, run, readFile;
 
 /**
  * Take ical string data and convert to JSON
@@ -14,24 +16,19 @@ var NEW_LINE = /\r\n|\n|\r/,
  * @returns {Object}
  */
 convert = function(source) {
-  var currentKey = "",
-      currentObj,
+  let currentKey = "",
       currentValue = "",
-      line,
       objectNames = [],
       output = {},
-      parents,
       parentObj = {},
-      i,
-      linesLength,
       lines = source.split(NEW_LINE),
       splitAt;
 
-  currentObj = output;
-  parents = [];
+  let currentObj = output;
+  let parents = [];
 
-  for (i = 0, linesLength = lines.length; i < linesLength; i++) {
-    line = lines[i];
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
     if (line.charAt(0) === " ") {
       currentObj[currentKey] += line.substr(1);
 
@@ -52,6 +49,7 @@ convert = function(source) {
           if (parentObj[currentValue] == null) {
             parentObj[currentValue] = [];
           }
+          // Create a new object, store the reference for future uses
           currentObj = {};
           parentObj[currentValue].push(currentObj);
           break;
@@ -80,10 +78,10 @@ convert = function(source) {
  * @return {Promise}
  */
 run = function(options) {
-  var ext, file, filePath, files, stat, i, filePromises = [];
+  let ext, file, filePath, files, stat, filePromises = [];
   files = options.args || [];
 
-  for (i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.length; i++) {
     file = files[i];
     filePath = path.resolve(cwd, file);
 
@@ -99,8 +97,8 @@ run = function(options) {
     }
 
     filePromises.push(Q.nfcall(fs.readFile, filePath)
-    .then(function (buffer) {
-      var basename, dirname, output, writePath;
+    .then((buffer) => {
+      let basename, dirname, output, writePath;
       output = convert(buffer.toString());
       basename = path.basename(filePath, ext);
       dirname = path.dirname(filePath);
@@ -108,7 +106,7 @@ run = function(options) {
 
       return Q.nfcall(fs.writeFile, writePath, JSON.stringify(output, null, "  "));
     })
-    .fail(function (error) {
+    .fail((error) => {
       throw new Error(error);
     }));
   }
