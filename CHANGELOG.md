@@ -1,3 +1,10 @@
+## v1.1.0 (2017-04-05)
+#### Fixes:
+- Fix not popping parent object properly (#4)
+
+#### Refactor:
+- Switch to use let and const for better block scoping
+
 ## v1.0.0 (2017-01-03)
 #### Changes:
 - Change API to return promises
