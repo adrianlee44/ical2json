@@ -57,7 +57,7 @@ convert = function(source) {
           break;
         case "END":
           currentObj = parentObj;
-          parentObj = parents.shift();
+          parentObj = parents.pop();
           break;
         default:
           if(currentObj[currentKey]) {
