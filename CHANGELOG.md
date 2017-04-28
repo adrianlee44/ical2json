@@ -1,3 +1,13 @@
+# v1.2.0 (2017/4/27)
+## Bug Fixes
+- **ical2json:** Fix invalid options
+  ([3d539d9f](https://github.com/adrianlee44/ical2json/commit/3d539d9f))
+
+## Features
+- **ical2json:** Add support for reverting from JSON to ics
+  ([5753423a](https://github.com/adrianlee44/ical2json/commit/5753423a),
+   [#7](https://github.com/adrianlee44/ical2json/issues/7))
+
 ## v1.1.0 (2017-04-05)
 #### Fixes:
 - Fix not popping parent object properly (#4)
