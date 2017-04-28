@@ -5,6 +5,8 @@ doesNotExist.ics
 test.ics
 test.json
 wrongExt.data
+test-1.ics
+test-1.json
 
 .nyc_output/
 coverage/
