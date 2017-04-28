@@ -16,6 +16,7 @@ var path = require('path'),
 
 commander
   .version(pkg.version)
+  .option('-r', '--revert', 'Revert JSON to ical')
   .usage("[options] [FILES...]")
   .parse(process.argv);
 

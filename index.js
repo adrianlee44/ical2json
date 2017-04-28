@@ -7,7 +7,6 @@ const path = require("path");
 const fs = require("fs");
 const Q = require("q");
 const cwd = process.cwd();
-let convert, run, readFile;
 
 /**
  * Take ical string data and convert to JSON
@@ -15,7 +14,7 @@ let convert, run, readFile;
  * @param {string} source
  * @returns {Object}
  */
-convert = function(source) {
+function convert(source) {
   let currentKey = "",
       currentValue = "",
       objectNames = [],
@@ -73,38 +72,80 @@ convert = function(source) {
 };
 
 /**
+ * Take JSON, revert back to ical
+ * @param {Object} object
+ * @return {String}
+ */
+function revert(object) {
+  let lines = [];
+
+  for (let key in object) {
+    let value = object[key];
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        lines.push(`BEGIN:${key}`);
+        lines.push(revert(item));
+        lines.push(`END:${key}`);
+      });
+    } else {
+      let fullLine = `${key}:${value}`;
+      do {
+        // According to ical spec, lines of text should be no longer
+        // than 75 octets
+        lines.push(fullLine.substr(0, 75));
+        fullLine = ' ' + fullLine.substr(75);
+      } while (fullLine.length > 1);
+    }
+  }
+
+  return lines.join('\n');
+};
+
+/**
  * Pass in options to parse and generate JSON files
  * @param {Object} options
  * @return {Promise}
  */
-run = function(options) {
-  let ext, file, filePath, files, stat, filePromises = [];
+function run(options) {
+  let files, filePromises = [];
   files = options.args || [];
 
   for (let i = 0; i < files.length; i++) {
-    file = files[i];
-    filePath = path.resolve(cwd, file);
+    let file = files[i];
+    let filePath = path.resolve(cwd, file);
 
     if (!fs.existsSync(filePath)) {
       continue;
     }
 
-    stat = fs.statSync(filePath);
-    ext = path.extname(filePath);
+    let stat = fs.statSync(filePath);
+    let ext = path.extname(filePath);
 
-    if (!(stat.isFile() && ext === ".ics")) {
+    let isConvert = !options.revert && ext === '.ics'
+    let isRevert = options.revert && ext === '.json'
+
+    if (!stat.isFile() || (!isConvert && !isRevert)) {
       continue;
     }
 
     filePromises.push(Q.nfcall(fs.readFile, filePath)
     .then((buffer) => {
-      let basename, dirname, output, writePath;
-      output = convert(buffer.toString());
-      basename = path.basename(filePath, ext);
-      dirname = path.dirname(filePath);
-      writePath = path.join(dirname, basename) + ".json";
+      let output;
+      let data = buffer.toString();
 
-      return Q.nfcall(fs.writeFile, writePath, JSON.stringify(output, null, "  "));
+      if (isConvert) {
+        output = convert(data);
+        output = JSON.stringify(output, null, "  ");
+      } else if (isRevert) {
+        output = revert(data);
+      }
+
+      let basename = path.basename(filePath, ext);
+      let dirname = path.dirname(filePath);
+      let compiledExt = isConvert ? '.json' : '.ics';
+      let writePath = path.join(dirname, basename) + compiledExt;
+
+      return Q.nfcall(fs.writeFile, writePath, output);
     })
     .fail((error) => {
       throw new Error(error);
@@ -116,5 +157,6 @@ run = function(options) {
 
 module.exports = {
   run: run,
+  revert: revert,
   convert: convert
 };
