@@ -92,6 +92,7 @@ File output:
   Options:
 
     -h, --help     output usage information
+    -r, --revert   Revert JSON to ical
     -V, --version  output the version number
 ```
 
@@ -99,5 +100,9 @@ Programmatic API
 ```
 var ical2json = require("ical2json");
 
+// From ical to JSON
 var output = ical2json.convert(icalData);
+
+// From JSON to ical
+var icalOutput = ical2json.revert(icalJson);
 ```
