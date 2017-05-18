@@ -2,25 +2,25 @@
 
 // Make sure lines are splited correctly
 // http://stackoverflow.com/questions/1155678/javascript-string-newline-character
-const NEW_LINE = /\r\n|\n|\r/;
-const path = require("path");
-const fs = require("fs");
-const Q = require("q");
-const cwd = process.cwd();
+const NEW_LINE = /\r\n|\n|\r/,
+      path     = require('path'),
+      fs       = require('fs'),
+      Q        = require('q'),
+      cwd      = process.cwd();
 
 /**
  * Take ical string data and convert to JSON
  *
  * @param {string} source
  * @returns {Object}
- */
+**/
 function convert(source) {
-  let currentKey = "",
-      currentValue = "",
-      objectNames = [],
-      output = {},
-      parentObj = {},
-      lines = source.split(NEW_LINE),
+  let currentKey   = '',
+      currentValue = '',
+      objectNames  = [],
+      output       = {},
+      parentObj    = {},
+      lines        = source.split(NEW_LINE),
       splitAt;
 
   let currentObj = output;
@@ -36,7 +36,7 @@ function convert(source) {
     if (line.charAt(0) === ' ') {
       currentObj[currentKey] += line.substr(1);
     } else {
-      splitAt = line.indexOf(":");
+      splitAt = line.indexOf(':');
 
       if (splitAt < 0) {
         continue;
@@ -47,7 +47,7 @@ function convert(source) {
       currentValue = line.substr(splitAt + 1);
 
       switch (currentKey) {
-        case "BEGIN":
+        case 'BEGIN':
           parents.push(parentObj);
           parentObj = currentObj;
           if (parentObj[currentValue] == null) {
@@ -57,7 +57,7 @@ function convert(source) {
           currentObj = {};
           parentObj[currentValue].push(currentObj);
           break;
-        case "END":
+        case 'END':
           currentObj = parentObj;
           parentObj = parents.pop();
           break;
@@ -80,7 +80,7 @@ function convert(source) {
  * Take JSON, revert back to ical
  * @param {Object} object
  * @return {String}
- */
+**/
 function revert(object) {
   let lines = [];
 
@@ -104,13 +104,13 @@ function revert(object) {
   }
 
   return lines.join('\n');
-};
+}
 
 /**
  * Pass in options to parse and generate JSON files
  * @param {Object} options
  * @return {Promise}
- */
+**/
 function run(options) {
   let files, filePromises = [];
   files = options.args || [];
@@ -140,7 +140,7 @@ function run(options) {
 
       if (isConvert) {
         output = convert(data);
-        output = JSON.stringify(output, null, "  ");
+        output = JSON.stringify(output, null, '  ');
       } else if (isRevert) {
         output = revert(data);
       }
@@ -158,10 +158,10 @@ function run(options) {
   }
 
   return Q.all(filePromises);
-};
+}
 
 module.exports = {
-  run: run,
-  revert: revert,
-  convert: convert
-};
+  run:     run,
+  revert:  revert,
+  convert: convert,
+}
