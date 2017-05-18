@@ -7,6 +7,6 @@ test.json
 wrongExt.data
 test-1.ics
 test-1.json
-
+log
 .nyc_output/
 coverage/

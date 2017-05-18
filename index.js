@@ -28,9 +28,13 @@ function convert(source) {
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
-    if (line.charAt(0) === " ") {
+    //some lines are a continuation of the previous one & start with a ' ;'
+    if (line.substr(0, 2) === ' ;') {
+      const nextLine = lines.splice(i+1, 1);
+      line += nextLine;
+    }
+    if (line.charAt(0) === ' ') {
       currentObj[currentKey] += line.substr(1);
-
     } else {
       splitAt = line.indexOf(":");
 
@@ -38,6 +42,7 @@ function convert(source) {
         continue;
       }
 
+      //key:value
       currentKey = line.substr(0, splitAt);
       currentValue = line.substr(splitAt + 1);
 
