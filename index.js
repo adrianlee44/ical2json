@@ -20,11 +20,23 @@ function convert(source) {
       objectNames  = [],
       output       = {},
       parentObj    = {},
-      lines        = source.split(NEW_LINE),
+      lines0       = source.split(NEW_LINE),
       splitAt;
 
   let currentObj = output;
   let parents = [];
+
+  //merge multi-line items
+  const lines = lines0.reduce((acc, curr, i) => {
+    if (curr[0] === ' ') {
+      const prev = acc.pop();
+      const new_elem = prev.concat(curr.substr(1));
+      acc.push(new_elem);
+    } else {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
