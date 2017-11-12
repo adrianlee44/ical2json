@@ -20,7 +20,7 @@
     "converter"
   ],
   "engines": {
-    "node" : ">=6.0.0"
+    "node": ">=6.0.0"
   },
   "author": "Adrian Lee",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "nyc": "^10.0.0"
   },
   "dependencies": {
-    "commander": "^2.9.0",
-    "q": "^1.4.1"
+    "commander": "^2.11.0",
+    "q": "^1.5.1"
   }
 }
