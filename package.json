@@ -26,11 +26,11 @@
   "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
-    "coveralls": "^2.11.15",
+    "coveralls": "^3.0.0",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-nodeunit": "^1.0.0",
-    "nyc": "^10.0.0"
+    "nyc": "^11.3.0"
   },
   "dependencies": {
     "commander": "^2.11.0",
