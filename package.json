@@ -28,9 +28,9 @@
   "devDependencies": {
     "coveralls": "^3.0.0",
     "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-nodeunit": "^1.0.0",
-    "nyc": "^11.3.0"
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-nodeunit": "^2.0.0",
+    "nyc": "^14.1.1"
   },
   "dependencies": {
     "commander": "^2.11.0",
