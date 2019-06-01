@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const ical2json = require("./index");
 const fs = require("fs");
@@ -21,13 +21,13 @@ exports["convert"] = {
   },
 
   "long description": function (test) {
-    let desc = "Visit http://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year\'s Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.";
+    let desc = "Visit http://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.";
     test.equal(this.eventObjs.VEVENT[0].DESCRIPTION, desc);
     test.done();
   },
 
   "summary": function (test) {
-    test.equal(this.eventObjs.VEVENT[0].SUMMARY, "New Year\'s Day");
+    test.equal(this.eventObjs.VEVENT[0].SUMMARY, "New Year's Day");
     test.done();
   },
 
@@ -36,14 +36,14 @@ exports["convert"] = {
     let eventObjs = ical2json.convert(testString);
 
     test.notEqual(eventObjs.VEVENT, undefined);
-    test.ok(!eventObjs.VEVENT[0].hasOwnProperty('DTSTART;VALUE=DATE'));
+    test.ok(!eventObjs.VEVENT[0].hasOwnProperty("DTSTART;VALUE=DATE"));
 
     test.done();
   },
 
   "revert": function (test) {
-    test.equal(this.eventString.replace(/\n\s?/g, ''),
-      ical2json.revert(this.eventObjs).replace(/\n\s?/g, ''));
+    test.equal(this.eventString.replace(/\n\s?/g, ""),
+      ical2json.revert(this.eventObjs).replace(/\n\s?/g, ""));
     test.done();
   }
 };
@@ -54,7 +54,7 @@ exports["convert CR"] = {
     let eventObjs = ical2json.convert(eventString);
 
     test.notEqual(eventObjs.VEVENT, undefined);
-    test.equal(eventObjs.VEVENT[0]['DTSTART;VALUE=DATE'], '20130101');
+    test.equal(eventObjs.VEVENT[0]["DTSTART;VALUE=DATE"], "20130101");
     test.done();
   }
 };
@@ -79,8 +79,8 @@ exports["convert multi-child"] = {
     test.equal(eventObjs.VEVENT[0].VALARM.length, 2);
     test.equal(eventObjs.VEVENT[1].VALARM.length, 2);
 
-    test.equal(eventString.replace(/\n\s?/g, ''),
-      ical2json.revert(eventObjs).replace(/\n\s?/g, ''));
+    test.equal(eventString.replace(/\n\s?/g, ""),
+      ical2json.revert(eventObjs).replace(/\n\s?/g, ""));
 
     test.done();
   }
@@ -104,8 +104,8 @@ exports["multiple parents"] = {
     test.ok(eventObjs.VCALENDAR[0].VEVENT);
     test.equal(eventObjs.VCALENDAR[0].VEVENT.length, 1);
 
-    test.equal(eventString.replace(/(\n|\r)\s?/g, ''),
-      ical2json.revert(eventObjs).replace(/(\n|\r)\s?/g, ''));
+    test.equal(eventString.replace(/(\n|\r)\s?/g, ""),
+      ical2json.revert(eventObjs).replace(/(\n|\r)\s?/g, ""));
 
     test.done();
   }

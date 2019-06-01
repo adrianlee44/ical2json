@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // Make sure lines are splited correctly
 // http://stackoverflow.com/questions/1155678/javascript-string-newline-character
@@ -17,7 +17,6 @@ const cwd = process.cwd();
 function convert(source) {
   let currentKey = "",
       currentValue = "",
-      objectNames = [],
       output = {},
       parentObj = {},
       lines = source.split(NEW_LINE),
@@ -69,7 +68,7 @@ function convert(source) {
     }
   }
   return output;
-};
+}
 
 /**
  * Take JSON, revert back to ical
@@ -93,13 +92,13 @@ function revert(object) {
         // According to ical spec, lines of text should be no longer
         // than 75 octets
         lines.push(fullLine.substr(0, 75));
-        fullLine = ' ' + fullLine.substr(75);
+        fullLine = " " + fullLine.substr(75);
       } while (fullLine.length > 1);
     }
   }
 
-  return lines.join('\n');
-};
+  return lines.join("\n");
+}
 
 /**
  * Pass in options to parse and generate JSON files
@@ -121,8 +120,8 @@ function run(options) {
     let stat = fs.statSync(filePath);
     let ext = path.extname(filePath);
 
-    let isConvert = !options.revert && ext === '.ics'
-    let isRevert = options.revert && ext === '.json'
+    let isConvert = !options.revert && ext === ".ics"
+    let isRevert = options.revert && ext === ".json"
 
     if (!stat.isFile() || (!isConvert && !isRevert)) {
       continue;
@@ -142,7 +141,7 @@ function run(options) {
 
       let basename = path.basename(filePath, ext);
       let dirname = path.dirname(filePath);
-      let compiledExt = isConvert ? '.json' : '.ics';
+      let compiledExt = isConvert ? ".json" : ".ics";
       let writePath = path.join(dirname, basename) + compiledExt;
 
       return Q.nfcall(fs.writeFile, writePath, output);
@@ -153,7 +152,7 @@ function run(options) {
   }
 
   return Q.all(filePromises);
-};
+}
 
 module.exports = {
   run: run,
