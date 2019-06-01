@@ -1,20 +1,15 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     nodeunit: {
-      files: ['test.js']
+      files: ["test.js"]
     },
-    jshint: {
-      options: {
-        eqnull: true,
-        loopfunc: true
-      },
-      src: 'index.js',
-      test: 'test.js'
+    eslint: {
+      target: "*.js",
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks("grunt-contrib-nodeunit");
+  grunt.loadNpmTasks("grunt-eslint");
 
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask("default", ["eslint", "nodeunit"]);
 };
