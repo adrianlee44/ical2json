@@ -1,6 +1,9 @@
 {   
     "extends": "eslint:recommended",
     "env": { "node": true, "es6": true },
+    "parserOptions": {
+      "sourceType": "module"
+    },
     "rules": {
       "quotes": ["error", "double"],
       "no-trailing-spaces": ["error"]

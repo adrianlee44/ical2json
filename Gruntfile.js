@@ -1,15 +1,24 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    nodeunit: {
-      files: ["test.js"]
+    ava: {
+      test: ["test/*.js"],
+      nycTest: {
+        options: {
+          verbose: true,
+          nyc: true
+        },
+        files: {
+          src: ["test/*.js"]
+        }
+      }
     },
     eslint: {
-      files: ["*.js", "bin/ical2json"],
+      files: ["*.js", "bin/ical2json"]
     }
   });
 
-  grunt.loadNpmTasks("grunt-contrib-nodeunit");
+  grunt.loadNpmTasks("grunt-ava");
   grunt.loadNpmTasks("grunt-eslint");
 
-  grunt.registerTask("default", ["eslint", "nodeunit"]);
+  grunt.registerTask("default", ["eslint", "ava:tests"]);
 };
