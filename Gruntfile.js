@@ -4,7 +4,7 @@ module.exports = function(grunt) {
       files: ["test.js"]
     },
     eslint: {
-      target: "*.js",
+      files: ["*.js", "bin/ical2json"],
     }
   });
 
