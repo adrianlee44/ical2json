@@ -6,6 +6,7 @@
     },
     "rules": {
       "quotes": ["error", "double"],
-      "no-trailing-spaces": ["error"]
+      "no-trailing-spaces": ["error"],
+      "prefer-const": ["error"]
     }
 }

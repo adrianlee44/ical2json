@@ -1,12 +1,18 @@
 "use strict";
 
-// Make sure lines are splited correctly
-// http://stackoverflow.com/questions/1155678/javascript-string-newline-character
-const NEW_LINE = /\r\n|\n|\r/;
 const path = require("path");
 const fs = require("fs");
 const Q = require("q");
 const cwd = process.cwd();
+
+// Make sure lines are splited correctly
+// http://stackoverflow.com/questions/1155678/javascript-string-newline-character
+const NEW_LINE = /\r\n|\n|\r/;
+const COLON = ":";
+// const COMMA = ",";
+// const DQUOTE = "\"";
+// const SEMICOLON = ";";
+const SPACE = " ";
 
 /**
  * Take ical string data and convert to JSON
@@ -16,22 +22,22 @@ const cwd = process.cwd();
  */
 function convert(source) {
   let currentKey = "",
-      currentValue = "",
-      output = {},
-      parentObj = {},
-      lines = source.split(NEW_LINE),
-      splitAt;
+    currentValue = "",
+    parentObj = {},
+    splitAt;
+
+  const output = {};
+  const lines = source.split(NEW_LINE);
 
   let currentObj = output;
-  let parents = [];
+  const parents = [];
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i];
-    if (line.charAt(0) === " ") {
+    const line = lines[i];
+    if (line.charAt(0) === SPACE) {
       currentObj[currentKey] += line.substr(1);
-
     } else {
-      splitAt = line.indexOf(":");
+      splitAt = line.indexOf(COLON);
 
       if (splitAt < 0) {
         continue;
@@ -56,8 +62,8 @@ function convert(source) {
           parentObj = parents.pop();
           break;
         default:
-          if(currentObj[currentKey]) {
-            if(!Array.isArray(currentObj[currentKey])) {
+          if (currentObj[currentKey]) {
+            if (!Array.isArray(currentObj[currentKey])) {
               currentObj[currentKey] = [currentObj[currentKey]];
             }
             currentObj[currentKey].push(currentValue);
@@ -76,12 +82,12 @@ function convert(source) {
  * @return {String}
  */
 function revert(object) {
-  let lines = [];
+  const lines = [];
 
-  for (let key in object) {
-    let value = object[key];
+  for (const key in object) {
+    const value = object[key];
     if (Array.isArray(value)) {
-      value.forEach((item) => {
+      value.forEach(item => {
         lines.push(`BEGIN:${key}`);
         lines.push(revert(item));
         lines.push(`END:${key}`);
@@ -92,7 +98,7 @@ function revert(object) {
         // According to ical spec, lines of text should be no longer
         // than 75 octets
         lines.push(fullLine.substr(0, 75));
-        fullLine = " " + fullLine.substr(75);
+        fullLine = SPACE + fullLine.substr(75);
       } while (fullLine.length > 1);
     }
   }
@@ -106,49 +112,51 @@ function revert(object) {
  * @return {Promise}
  */
 function run(options) {
-  let files, filePromises = [];
-  files = options.args || [];
+  const filePromises = [];
+  const files = options.args || [];
 
   for (let i = 0; i < files.length; i++) {
-    let file = files[i];
-    let filePath = path.resolve(cwd, file);
+    const file = files[i];
+    const filePath = path.resolve(cwd, file);
 
     if (!fs.existsSync(filePath)) {
       continue;
     }
 
-    let stat = fs.statSync(filePath);
-    let ext = path.extname(filePath);
+    const stat = fs.statSync(filePath);
+    const ext = path.extname(filePath);
 
-    let isConvert = !options.revert && ext === ".ics"
-    let isRevert = options.revert && ext === ".json"
+    const isConvert = !options.revert && ext === ".ics";
+    const isRevert = options.revert && ext === ".json";
 
     if (!stat.isFile() || (!isConvert && !isRevert)) {
       continue;
     }
 
-    filePromises.push(Q.nfcall(fs.readFile, filePath)
-    .then((buffer) => {
-      let output;
-      let data = buffer.toString();
+    filePromises.push(
+      Q.nfcall(fs.readFile, filePath)
+        .then(buffer => {
+          let output;
+          const data = buffer.toString();
 
-      if (isConvert) {
-        output = convert(data);
-        output = JSON.stringify(output, null, "  ");
-      } else if (isRevert) {
-        output = revert(data);
-      }
+          if (isConvert) {
+            output = convert(data);
+            output = JSON.stringify(output, null, "  ");
+          } else if (isRevert) {
+            output = revert(data);
+          }
 
-      let basename = path.basename(filePath, ext);
-      let dirname = path.dirname(filePath);
-      let compiledExt = isConvert ? ".json" : ".ics";
-      let writePath = path.join(dirname, basename) + compiledExt;
+          const basename = path.basename(filePath, ext);
+          const dirname = path.dirname(filePath);
+          const compiledExt = isConvert ? ".json" : ".ics";
+          const writePath = path.join(dirname, basename) + compiledExt;
 
-      return Q.nfcall(fs.writeFile, writePath, output);
-    })
-    .fail((error) => {
-      throw new Error(error);
-    }));
+          return Q.nfcall(fs.writeFile, writePath, output);
+        })
+        .fail(error => {
+          throw new Error(error);
+        })
+    );
   }
 
   return Q.all(filePromises);
