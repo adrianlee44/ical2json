@@ -27,9 +27,9 @@
   "bin": "bin/ical2json",
   "devDependencies": {
     "ava": "^2.1.0",
-    "coveralls": "^3.0.0",
+    "coveralls": "^3.0.4",
     "eslint": "^5.16.0",
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.4",
     "grunt-ava": "^0.19.0",
     "grunt-eslint": "^21.0.0",
     "mock-fs": "^4.10.1",
