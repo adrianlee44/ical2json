@@ -1,9 +1,34 @@
 {   
-    "extends": "eslint:recommended",
-    "env": { "node": true, "es6": true },
-    "rules": {
-      "quotes": ["error", "double"],
-      "no-trailing-spaces": ["error"],
-      "prefer-const": ["error"]
+  "extends": "eslint:recommended",
+  "env": { "node": true, "browser": true },
+  "rules": {
+    "quotes": ["error", "double"],
+    "no-trailing-spaces": ["error"],
+    "indent": [
+      "error",
+      2, {
+        "SwitchCase": 1
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "lib/*.js",
+        "test/*.js"
+      ],
+      "env": {
+        "node": true,
+        "es6": true
+      },
+      "rules": {
+        "prefer-const": [
+          "error"
+        ]
+      },
+      "parserOptions": {
+        "sourceType": "module"
+      }
     }
+  ]
 }

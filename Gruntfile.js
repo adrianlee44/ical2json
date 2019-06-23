@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       }
     },
     eslint: {
-      files: ["*.js", "bin/ical2json"]
+      files: ["*.js", "bin/ical2json", "lib/*.js", "test/*.js"]
     }
   });
 
