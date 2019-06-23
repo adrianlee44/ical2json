@@ -1,6 +1,7 @@
 import mock from "mock-fs";
 import { existsSync, writeFileSync } from "fs";
-import { convert, run } from "../index";
+import run from "../lib/run";
+import { convert } from "../index";
 import test from "ava";
 
 test.before(() => {

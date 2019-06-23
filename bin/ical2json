@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/*
+/**
  * ical2json
  * https://github.com/adrianlee44/ical2json
  *
@@ -9,10 +9,10 @@
  */
 
 var path = require("path"),
-    fs   = require("fs"),
-    dir  = path.join(path.dirname(fs.realpathSync(__filename)), "../"),
-    pkg  = require(dir + "package.json"),
-    commander = require("commander");
+  fs   = require("fs"),
+  dir  = path.join(path.dirname(fs.realpathSync(__filename)), "../"),
+  pkg  = require(dir + "package.json"),
+  commander = require("commander");
 
 commander
   .version(pkg.version)
@@ -20,9 +20,9 @@ commander
   .usage("[options] [FILES...]")
   .parse(process.argv);
 
-  if (commander.args.length) {
-    require(dir + "index.js").run(commander);
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(commander.helpInformation());
-  }
+if (commander.args.length) {
+  require(dir + "lib/run.js")(commander);
+} else {
+  // eslint-disable-next-line no-console
+  console.log(commander.helpInformation());
+}
