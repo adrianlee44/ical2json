@@ -1,18 +1,13 @@
 "use strict";
 
-const path = require("path");
-const fs = require("fs");
-const Q = require("q");
-const cwd = process.cwd();
-
 // Make sure lines are splited correctly
 // http://stackoverflow.com/questions/1155678/javascript-string-newline-character
-const NEW_LINE = /\r\n|\n|\r/;
-const COLON = ":";
-// const COMMA = ",";
-// const DQUOTE = "\"";
-// const SEMICOLON = ";";
-const SPACE = " ";
+var NEW_LINE = /\r\n|\n|\r/;
+var COLON = ":";
+// var COMMA = ",";
+// var DQUOTE = "\"";
+// var SEMICOLON = ";";
+var SPACE = " ";
 
 /**
  * Take ical string data and convert to JSON
@@ -21,19 +16,19 @@ const SPACE = " ";
  * @returns {Object}
  */
 function convert(source) {
-  let currentKey = "",
+  var currentKey = "",
     currentValue = "",
     parentObj = {},
     splitAt;
 
-  const output = {};
-  const lines = source.split(NEW_LINE);
+  var output = {};
+  var lines = source.split(NEW_LINE);
 
-  let currentObj = output;
-  const parents = [];
+  var currentObj = output;
+  var parents = [];
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
     if (line.charAt(0) === SPACE) {
       currentObj[currentKey] += line.substr(1);
     } else {
@@ -82,18 +77,18 @@ function convert(source) {
  * @return {String}
  */
 function revert(object) {
-  const lines = [];
+  var lines = [];
 
-  for (const key in object) {
-    const value = object[key];
+  for (var key in object) {
+    var value = object[key];
     if (Array.isArray(value)) {
-      value.forEach(item => {
-        lines.push(`BEGIN:${key}`);
+      value.forEach(function (item) {
+        lines.push("BEGIN:" + key);
         lines.push(revert(item));
-        lines.push(`END:${key}`);
+        lines.push("END:" + key);
       });
     } else {
-      let fullLine = `${key}:${value}`;
+      var fullLine = key + ":" + value;
       do {
         // According to ical spec, lines of text should be no longer
         // than 75 octets
