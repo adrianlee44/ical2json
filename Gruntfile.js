@@ -20,5 +20,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-ava");
   grunt.loadNpmTasks("grunt-eslint");
 
-  grunt.registerTask("default", ["eslint", "ava:tests"]);
+  grunt.registerTask("default", ["eslint", "ava:test"]);
 };
