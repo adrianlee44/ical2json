@@ -1,3 +1,9 @@
+# v2.0.0 (2019/7/2)
+## Optimizations
+- **ical2json:** Restructure code and moved node specific code out to lib folder
+   ([95c63553](https://github.com/adrianlee44/ical2json/commit/95c63553),
+    [#14](https://github.com/adrianlee44/ical2json/issues/14))
+
 # v1.2.0 (2017/4/27)
 ## Bug Fixes
 - **ical2json:** Fix invalid options
