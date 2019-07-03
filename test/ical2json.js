@@ -13,7 +13,7 @@ test("missing :", t => {
   const eventObjs = convert(testString);
 
   t.not(eventObjs.VEVENT, undefined);
-  t.false(eventObjs.VEVENT[0].hasOwnProperty("DTSTART;VALUE=DATE"));
+  t.false(Object.prototype.hasOwnProperty.call(eventObjs.VEVENT[0], "DTSTART;VALUE=DATE"))
 });
 
 test("converting and reverting result in same content", t => {
