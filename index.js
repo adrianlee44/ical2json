@@ -82,13 +82,15 @@ function revert(object) {
   for (var key in object) {
     var value = object[key];
     if (Array.isArray(value)) {
-      if (key === 'RDATE') {
-        value.forEach(item => lines.push(`${key}:${item}`));
+      if (key === "RDATE") {
+        value.forEach(function(item) {
+          lines.push(key + ":" +item );
+        });
       } else {
-        value.forEach(item => {
-          lines.push(`BEGIN:${key}`);
+        value.forEach(function(item) {
+          lines.push("BEGIN:" + key);
           lines.push(revert(item));
-          lines.push(`END:${key}`);
+          lines.push("END:" + key);
         });
       }
     } else {
