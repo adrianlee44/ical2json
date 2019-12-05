@@ -84,7 +84,7 @@ function revert(object) {
     if (Array.isArray(value)) {
       if (key === "RDATE") {
         value.forEach(function(item) {
-          lines.push(key + ":" +item );
+          lines.push(key + ":" + item);
         });
       } else {
         value.forEach(function(item) {
