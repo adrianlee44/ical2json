@@ -82,11 +82,15 @@ function revert(object) {
   for (var key in object) {
     var value = object[key];
     if (Array.isArray(value)) {
-      value.forEach(function (item) {
-        lines.push("BEGIN:" + key);
-        lines.push(revert(item));
-        lines.push("END:" + key);
-      });
+      if (key === 'RDATE') {
+        value.forEach(item => lines.push(`${key}:${item}`));
+      } else {
+        value.forEach(item => {
+          lines.push(`BEGIN:${key}`);
+          lines.push(revert(item));
+          lines.push(`END:${key}`);
+        });
+      }
     } else {
       var fullLine = key + ":" + value;
       do {
