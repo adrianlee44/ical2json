@@ -1,3 +1,12 @@
+# v3.0.0 (2019/12/8)
+## Bug Fixes
+- **ical2json:** Require node 8 or above
+  ([b868e87](https://github.com/adrianlee44/ical2json/commit/b868e87))
+- **package:**
+  - update commander to version 4.0.0
+  ([8c00f6e8](https://github.com/adrianlee44/ical2json/commit/8c00f6e8))
+
+
 # v2.0.0 (2019/7/2)
 ## Optimizations
 - **ical2json:** Restructure code and moved node specific code out to lib folder
