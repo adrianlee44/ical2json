@@ -43,5 +43,10 @@
   "dependencies": {
     "commander": "^4.0.1",
     "q": "^1.5.1"
-  }
+  },
+  "ava": {
+    "nodeArguments": [
+        "--experimental-modules"
+      ]
+    }
 }
