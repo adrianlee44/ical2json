@@ -31,9 +31,10 @@
   "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
-    "ava": "^2.4.0",
+    "ava": "^3.3.0",
     "coveralls": "^3.0.9",
     "eslint": "^6.7.2",
+    "esm": "^3.2.25",
     "grunt": "^1.0.4",
     "grunt-ava": "^0.19.0",
     "grunt-eslint": "^22.0.0",
@@ -43,5 +44,10 @@
   "dependencies": {
     "commander": "^4.0.1",
     "q": "^1.5.1"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   }
 }
