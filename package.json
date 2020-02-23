@@ -31,7 +31,7 @@
   "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
-    "ava": "^3.3.0",
+    "ava": "^3.4.0",
     "coveralls": "^3.0.9",
     "eslint": "^6.7.2",
     "esm": "^3.2.25",
