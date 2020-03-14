@@ -42,7 +42,7 @@
     "nyc": "^15.0.0"
   },
   "dependencies": {
-    "commander": "^4.0.1",
+    "commander": "^5.0.0",
     "q": "^1.5.1"
   },
   "ava": {
