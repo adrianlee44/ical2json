@@ -1,0 +1,14 @@
+{
+  "bracketSpacing": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": ["src/*.ts"],
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ]
+}

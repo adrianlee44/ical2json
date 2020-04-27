@@ -8,20 +8,19 @@
  * Licensed under the MIT license.
  */
 
-var path = require("path"),
-  fs   = require("fs"),
-  dir  = path.join(path.dirname(fs.realpathSync(__filename)), "../"),
-  pkg  = require(dir + "package.json"),
-  commander = require("commander");
+var path = require('path'),
+  dir = path.join(__dirname, '../'),
+  pkg = require(dir + 'package.json'),
+  commander = require('commander');
 
 commander
   .version(pkg.version)
-  .option("-r, --revert", "Revert JSON to ical")
-  .usage("[options] [FILES...]")
+  .option('-r, --revert', 'Revert JSON to ical')
+  .usage('[options] [FILES...]')
   .parse(process.argv);
 
 if (commander.args.length) {
-  require(dir + "lib/run.js")(commander);
+  require(dir + 'build/cli.js')(commander);
 } else {
   // eslint-disable-next-line no-console
   console.log(commander.helpInformation());

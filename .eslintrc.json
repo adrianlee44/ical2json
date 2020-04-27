@@ -1,0 +1,19 @@
+{
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "env": {"node": true, "browser": true},
+  "rules": {
+    "no-trailing-spaces": ["error"]
+  },
+  "overrides": [
+    {
+      "files": ["test/*.js"],
+      "env": {
+        "node": true,
+        "es6": true
+      },
+      "parserOptions": {
+        "sourceType": "module"
+      }
+    }
+  ]
+}
