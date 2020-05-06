@@ -10,3 +10,4 @@ test-1.json
 
 .nyc_output/
 coverage/
+build/
