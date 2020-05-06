@@ -1,31 +1,35 @@
-ical2json
-===
+# ical2json
+
 A simple node package to convert iCal data (.ics file) to JSON format
 
 [![Build Status](https://img.shields.io/travis/adrianlee44/ical2json/master.svg?style=flat-square)](https://travis-ci.org/adrianlee44/ical2json)
 [![Coveralls branch](https://img.shields.io/coveralls/adrianlee44/ical2json/master.svg?style=flat-square)](https://coveralls.io/github/adrianlee44/ical2json?branch=master)
-[![npm](https://img.shields.io/npm/v/ical2json.svg?style=flat-square)](https://www.npmjs.com/package/ical2json) [![Greenkeeper badge](https://badges.greenkeeper.io/adrianlee44/ical2json.svg)](https://greenkeeper.io/)
 
 ![David](https://img.shields.io/david/adrianlee44/ical2json.svg?style=flat-square)
 ![David](https://img.shields.io/david/dev/adrianlee44/ical2json.svg?style=flat-square)
 
 ## Getting started
+
 Download and install from npm
+
 ```
 npm install -g ical2json
 ```
 
 To convert ics file to json
+
 ```
 ical2json ./US-Holiday.ics
 ```
 
 The json output will be written to a `.json` file in the same directory
+
 ```
 ./US-Holiday.json
 ```
 
 File output:
+
 ```json
 {
   "VCALENDAR": [
@@ -86,6 +90,7 @@ File output:
 ```
 
 ## API
+
 ```
   Usage: ical2json [options] [FILES...]
 
@@ -97,6 +102,7 @@ File output:
 ```
 
 Programmatic API
+
 ```
 var ical2json = require("ical2json");
 
