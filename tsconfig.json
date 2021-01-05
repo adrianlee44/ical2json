@@ -4,8 +4,9 @@
     "module": "commonjs",
     "outDir": "./build",
     "strict": true,
-    "rootDir": "./src",
+    "rootDirs": ["src", "test"],
     "types": ["node"],
     "declaration": true
-  }
+  },
+  "include": ["src/**/*"]
 }

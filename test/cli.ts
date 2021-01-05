@@ -1,8 +1,10 @@
-import mock from 'mock-fs';
+import * as mock from 'mock-fs';
 import {existsSync, writeFileSync, readFileSync} from 'fs';
-import run from '../build/cli';
-import {convert} from '../build/ical2json';
-import test from 'ava';
+import run from '../src/cli';
+import {convert} from '../src/ical2json';
+import anyTest, {TestInterface} from 'ava';
+
+const test = anyTest as TestInterface<{eventString: string}>;
 
 test.before((t) => {
   mock();
@@ -21,6 +23,7 @@ test.after(() => {
 
 test('read ics and write json', (t) => {
   run({
+    revert: false,
     args: ['doesNotExist.ics', 'wrongExt.data', 'test.ics'],
   });
   t.false(existsSync('doesNotExist.json'));
