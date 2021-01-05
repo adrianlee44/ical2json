@@ -48,6 +48,8 @@ export default function (options: Ical2JsonOptions) {
       output = revert(JSON.parse(data) as IcalObject);
     }
 
+    if (!output) continue;
+
     const basename = path.basename(filePath, ext);
     const dirname = path.dirname(filePath);
     const compiledExt = isConvert ? '.json' : '.ics';
