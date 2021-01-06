@@ -76,7 +76,7 @@ function convert(source: string): IcalObject {
 function revert(object: IcalObject): string {
   const lines = [];
 
-  for (let key in object) {
+  for (const key in object) {
     const value = object[key];
     if (Array.isArray(value)) {
       if (key === 'RDATE') {

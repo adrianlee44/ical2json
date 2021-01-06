@@ -14,8 +14,7 @@ interface Ical2JsonOptions {
  * @param {Object} options
  * @return {Promise}
  */
-export default function (options: Ical2JsonOptions) {
-  const filePromises = [];
+export default function (options: Ical2JsonOptions): boolean {
   const files = options.args || [];
 
   for (let i = 0; i < files.length; i++) {
