@@ -2,11 +2,8 @@
 
 A simple node package to convert iCal data (.ics file) to JSON format
 
-[![Build Status](https://img.shields.io/travis/adrianlee44/ical2json/master.svg?style=flat-square)](https://travis-ci.org/adrianlee44/ical2json)
+![Tests](https://github.com/adrianlee44/ical2json/workflows/Tests/badge.svg)
 [![Coveralls branch](https://img.shields.io/coveralls/adrianlee44/ical2json/master.svg?style=flat-square)](https://coveralls.io/github/adrianlee44/ical2json?branch=master)
-
-![David](https://img.shields.io/david/adrianlee44/ical2json.svg?style=flat-square)
-![David](https://img.shields.io/david/dev/adrianlee44/ical2json.svg?style=flat-square)
 
 ## Getting started
 
