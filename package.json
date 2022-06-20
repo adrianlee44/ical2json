@@ -2,7 +2,7 @@
   "name": "ical2json",
   "version": "3.0.0",
   "description": "A simple node package to convert ical to JSON",
-  "main": "index.js",
+  "main": "build/ical2json.js",
   "files": [
     "bin/icaljson",
     "build/cli.js",
