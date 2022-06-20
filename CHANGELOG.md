@@ -1,3 +1,38 @@
+# v3.1.0 (2022/6/19)
+
+## Features
+- **ical2json:** Typescript conversion
+  (258b7ac8)
+
+## Bug Fixes
+- **cli:** Skip writing to file if there is no output
+  (50052a56)
+- **ical2json:**
+  - Fix main entry
+  (9a168ced)
+  - Fix revert with CLI not working
+  (d1708da5)
+  - Update packages and fix security vulnerabilities
+
+## Testing
+- **ical2json:** Use Github action (#37)
+
+- **lint:**
+  - Update eslintrc to better lint code
+  (7ac67ae7)
+  - Fix linting issues
+  (7ec207d9)
+- **travis:**
+  - Report code coverage
+  (5e52d57f)
+  - Test Node 14
+  (9b26a0dc)
+
+## Documentation
+- **README:** Remove greenkeeper badge
+  (4971013f)
+
+
 # v3.0.0 (2019/12/8)
 ## Bug Fixes
 - **ical2json:** Require node 8 or above
