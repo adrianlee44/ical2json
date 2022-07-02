@@ -2,9 +2,9 @@ import * as mock from 'mock-fs';
 import {existsSync, writeFileSync, readFileSync} from 'fs';
 import run from '../src/cli';
 import {convert} from '../src/ical2json';
-import anyTest, {TestInterface} from 'ava';
+import anyTest, {TestFn} from 'ava';
 
-const test = anyTest as TestInterface<{eventString: string}>;
+const test = anyTest as TestFn<{eventString: string}>;
 
 test.before((t) => {
   mock();
