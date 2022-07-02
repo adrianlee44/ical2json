@@ -1,3 +1,16 @@
+# v3.1.1 (2022/7/2)
+## Bug Fixes
+- **package:** Add types on npm package (#47)
+- **package-lock:** Fix version not updated
+  (f796eac0)
+
+## Testing
+- **ava:** Update ava to 4.3.0 and all snapshots
+  (84cbc5a7)
+- **workflow:** remove Node 10 and 12 and add 18
+  (45056455)
+
+
 # v3.1.0 (2022/6/19)
 
 ## Features
