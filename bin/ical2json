@@ -20,7 +20,7 @@ commander
   .parse(process.argv);
 
 if (commander.args.length) {
-  require(dir + 'build/cli.js')(commander);
+  require(dir + 'build/cli.js').default(commander);
 } else {
   // eslint-disable-next-line no-console
   console.log(commander.helpInformation());
