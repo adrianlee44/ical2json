@@ -1,6 +1,6 @@
 {
   "name": "ical2json",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A simple node package to convert ical to JSON",
   "main": "build/ical2json.js",
   "types": "build/ical2json.d.ts",

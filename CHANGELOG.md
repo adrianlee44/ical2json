@@ -1,3 +1,10 @@
+# v3.1.2 (2022/7/9)
+## Bug Fixes
+- **ical2json:** Fix CLI not calling default
+  (d70ce3f6,
+   #48)
+
+
 # v3.1.1 (2022/7/2)
 ## Bug Fixes
 - **package:** Add types on npm package (#47)
