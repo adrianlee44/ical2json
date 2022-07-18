@@ -1,8 +1,8 @@
-import {join, dirname} from 'path';
 import {existsSync, readFileSync} from 'fs';
-import run from '../src/cli';
+import {join, dirname} from 'path';
 import {convert} from '../src/ical2json';
 import anyTest, {TestFn} from 'ava';
+import * as execa from 'execa';
 import {write, directory} from 'tempy';
 
 interface TestContext {
@@ -37,22 +37,20 @@ test.before(async (t) => {
   t.context.directoryPath = await directory();
 });
 
-test('read ics and write json', (t) => {
+test('read ics and write json', async (t) => {
   const doesNotExistFile = join(t.context.directoryPath, 'doesNotExist.ics');
-  run({
-    revert: false,
-    args: [doesNotExistFile, t.context.wrongExtFile, t.context.testIcsFile],
-  });
+  await execa('./bin/ical2json', [
+    doesNotExistFile,
+    t.context.wrongExtFile,
+    t.context.testIcsFile,
+  ]);
   t.false(existsSync(outputFilePath(doesNotExistFile, 'doesNotExist.json')));
   t.false(existsSync(outputFilePath(t.context.wrongExtFile, 'wrongExt.json')));
   t.true(existsSync(outputFilePath(t.context.testIcsFile, 'test.json')));
 });
 
-test('read .json and write ics', (t) => {
-  run({
-    revert: true,
-    args: [t.context.testJsonFile],
-  });
+test('read .json and write ics', async (t) => {
+  await execa('./bin/ical2json', [t.context.testJsonFile]);
   const outputIcs = outputFilePath(t.context.testIcsFile, 'test.ics');
   t.true(existsSync(outputIcs));
   t.is(readFileSync(outputIcs).toString(), t.context.eventString);
