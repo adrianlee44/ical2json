@@ -2,7 +2,8 @@
   "name": "ical2json",
   "version": "3.1.2",
   "description": "A simple node package to convert ical to JSON",
-  "main": "build/ical2json.js",
+  "type": "module",
+  "exports": "./build/ical2json.js",
   "types": "build/ical2json.d.ts",
   "files": [
     "bin/icaljson",
@@ -11,6 +12,7 @@
   ],
   "scripts": {
     "prepublishOnly": "tsc",
+    "compile": "tsc",
     "lint": "eslint . --ext .js,.ts",
     "test": "npm run clean; npm run lint; tsc; npm run coverage; npm run report",
     "report": "nyc report --reporter=lcov",
@@ -30,7 +32,7 @@
     "converter"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=14.16.0"
   },
   "author": "Adrian Lee",
   "license": "MIT",

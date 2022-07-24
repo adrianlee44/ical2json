@@ -8,10 +8,13 @@
  * Licensed under the MIT license.
  */
 
-var path = require('path'),
-  dir = path.join(__dirname, '../'),
-  pkg = require(dir + 'package.json'),
-  commander = require('commander');
+import commander from 'commander';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dir = path.join(__dirname, '../');
+const pkg = JSON.parse(await fs.readFile('package.json'));
 
 commander
   .version(pkg.version)

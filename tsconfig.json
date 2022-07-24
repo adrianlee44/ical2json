@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es3",
-    "module": "commonjs",
     "outDir": "./build",
     "strict": true,
     "rootDirs": ["src", "test"],
     "types": ["node"],
-    "declaration": true
+    "declaration": true,
+    "module": "node16",
+    "moduleResolution": "node16"
   },
   "include": ["src/**/*"]
 }

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import {convert, revert, IcalObject} from './ical2json';
+import {convert, revert, IcalObject} from './ical2json.js';
 
 const cwd = process.cwd();
 

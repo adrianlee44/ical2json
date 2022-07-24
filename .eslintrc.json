@@ -3,9 +3,12 @@
     "eslint:recommended",
     "plugin:prettier/recommended"
   ],
-  "env": {"node": true, "browser": true},
+  "env": {"node": true},
   "rules": {
     "no-trailing-spaces": ["error"]
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
   },
   "overrides": [
     {
