@@ -1,4 +1,4 @@
-import {convert, revert} from '../src/ical2json';
+import {convert, revert} from '../src/ical2json.js';
 import test from 'ava';
 
 test('converting VEVENT', (t) => {

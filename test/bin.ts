@@ -1,8 +1,8 @@
-import {existsSync, readFileSync} from 'fs';
-import {join, dirname} from 'path';
-import {convert} from '../src/ical2json';
+import {existsSync, readFileSync} from 'node:fs';
+import {join, dirname} from 'node:path';
+import {convert} from '../src/ical2json.js';
 import anyTest, {TestFn} from 'ava';
-import * as execa from 'execa';
+import {execa} from 'execa';
 import {write, directory} from 'tempy';
 
 interface TestContext {
@@ -37,9 +37,15 @@ test.before(async (t) => {
   t.context.directoryPath = await directory();
 });
 
+test('no options given', async (t) => {
+  const result = await execa('./bin/ical2json.js', []);
+  t.is(result.exitCode, 0);
+  t.snapshot(result.stdout);
+});
+
 test('read ics and write json', async (t) => {
   const doesNotExistFile = join(t.context.directoryPath, 'doesNotExist.ics');
-  await execa('./bin/ical2json', [
+  await execa('./bin/ical2json.js', [
     doesNotExistFile,
     t.context.wrongExtFile,
     t.context.testIcsFile,
@@ -50,7 +56,7 @@ test('read ics and write json', async (t) => {
 });
 
 test('read .json and write ics', async (t) => {
-  await execa('./bin/ical2json', [t.context.testJsonFile]);
+  await execa('./bin/ical2json.js', [t.context.testJsonFile]);
   const outputIcs = outputFilePath(t.context.testIcsFile, 'test.ics');
   t.true(existsSync(outputIcs));
   t.is(readFileSync(outputIcs).toString(), t.context.eventString);

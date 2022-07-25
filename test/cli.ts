@@ -1,7 +1,7 @@
-import {join, dirname} from 'path';
-import {existsSync, readFileSync} from 'fs';
-import run from '../src/cli';
-import {convert} from '../src/ical2json';
+import {join, dirname} from 'node:path';
+import {existsSync, readFileSync} from 'node:fs';
+import run from '../src/cli.js';
+import {convert} from '../src/ical2json.js';
 import anyTest, {TestFn} from 'ava';
 import {write, directory} from 'tempy';
 

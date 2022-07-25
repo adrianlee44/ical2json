@@ -10,10 +10,8 @@
 
 import commander from 'commander';
 import fs from 'node:fs/promises';
-import path from 'node:path';
+import cli from '../build/cli.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dir = path.join(__dirname, '../');
 const pkg = JSON.parse(await fs.readFile('package.json'));
 
 commander
@@ -23,7 +21,7 @@ commander
   .parse(process.argv);
 
 if (commander.args.length) {
-  require(dir + 'build/cli.js').default(commander);
+  cli(commander);
 } else {
   // eslint-disable-next-line no-console
   console.log(commander.helpInformation());

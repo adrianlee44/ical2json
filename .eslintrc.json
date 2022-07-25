@@ -8,7 +8,8 @@
     "no-trailing-spaces": ["error"]
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "overrides": [
     {
