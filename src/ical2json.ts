@@ -29,7 +29,7 @@ function convert(source: string): IcalObject {
 
     const line = lines[i];
     if (line.charAt(0) === SPACE) {
-      currentObj[currentKey] += line.substr(1);
+      currentObj[currentKey] += line.substring(1);
     } else {
       const splitAt = line.indexOf(COLON);
 
@@ -37,8 +37,8 @@ function convert(source: string): IcalObject {
         continue;
       }
 
-      currentKey = line.substr(0, splitAt);
-      currentValue = line.substr(splitAt + 1);
+      currentKey = line.substring(0, splitAt);
+      currentValue = line.substring(splitAt + 1);
 
       switch (currentKey) {
         case 'BEGIN':
@@ -95,8 +95,8 @@ function revert(object: IcalObject): string {
       do {
         // According to ical spec, lines of text should be no longer
         // than 75 octets
-        lines.push(fullLine.substr(0, 75));
-        fullLine = SPACE + fullLine.substr(75);
+        lines.push(fullLine.substring(0, 75));
+        fullLine = SPACE + fullLine.substring(75);
       } while (fullLine.length > 1);
     }
   }
