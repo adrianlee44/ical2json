@@ -13,7 +13,7 @@
   "scripts": {
     "compile": "tsc",
     "prepublishOnly": "tsc",
-    "lint": "eslint --ext .js,.ts src/ test/",
+    "lint": "eslint . --ext .js,.ts",
     "test": "npm run clean; npm run lint; tsc; npm run coverage; npm run report",
     "report": "nyc report --reporter=lcov",
     "coverage": "nyc ava",
