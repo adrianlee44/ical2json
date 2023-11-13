@@ -53,7 +53,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "commander": "^6.2.1"
+    "commander": "^11.1.0"
   },
   "ava": {
     "extensions": [
