@@ -1,3 +1,22 @@
+# 3.2.0 (2023/11/12)
+## Features
+- **ical2json:** Include definition file
+  (e1739e28,
+   #55)
+
+## Optimizations
+- **ical2json:** Replace substr with substring
+  (2225838b)
+
+## Testing
+- **ava:** Bump ava to 5.3.1
+  (67684825)
+- **ical2json:** Add tests for bin/ical2json and use tempy
+  (48549b74)
+- **workflow:** Update test workflow to run on dev branches
+  (64f908ac)
+
+
 # v3.1.2 (2022/7/9)
 ## Bug Fixes
 - **ical2json:** Fix CLI not calling default
