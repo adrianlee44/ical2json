@@ -3,7 +3,7 @@
     "eslint:recommended",
     "plugin:prettier/recommended"
   ],
-  "env": {"node": true, "browser": true},
+  "env": {"node": true, "browser": true, "es6": true},
   "rules": {
     "no-trailing-spaces": ["error"]
   },
