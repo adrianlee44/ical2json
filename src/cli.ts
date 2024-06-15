@@ -6,17 +6,12 @@ const cwd = process.cwd();
 
 interface Ical2JsonOptions {
   revert: boolean;
-  args?: string[];
 }
 
-/**
- * Pass in options to parse and generate JSON files
- * @param {Object} options
- * @return {Promise}
- */
-export default function (options: Ical2JsonOptions): boolean {
-  const files = options.args || [];
-
+export default function (
+  files: string[] = [],
+  options: Ical2JsonOptions
+): boolean {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const filePath = path.resolve(cwd, file);

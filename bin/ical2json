@@ -8,20 +8,20 @@
  * Licensed under the MIT license.
  */
 
-var path = require('path'),
-  dir = path.join(__dirname, '../'),
-  pkg = require(dir + 'package.json'),
-  commander = require('commander');
+const path = require('path');
+const dir = path.join(__dirname, '../');
+const pkg = require(dir + 'package.json');
+const {program} = require('commander');
 
-commander
+program
   .version(pkg.version)
   .option('-r, --revert', 'Revert JSON to ical')
   .usage('[options] [FILES...]')
   .parse(process.argv);
 
-if (commander.args.length) {
-  require(dir + 'build/cli.js').default(commander);
+if (program.args.length) {
+  require(dir + 'build/cli.js').default(program.args, program.opts());
 } else {
   // eslint-disable-next-line no-console
-  console.log(commander.helpInformation());
+  console.log(program.helpInformation());
 }
