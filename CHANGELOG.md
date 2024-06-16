@@ -1,3 +1,33 @@
+# 4.0.0 (2024/6/16)
+## Features
+- **ical2json**: Add output-dir option to specify output directory
+  (cf52a85,
+   #56)
+## Optimizations
+- **ical2json:**
+  - Update commander to v12 and update implementation
+  (0fc21f1c)
+  - Bump minimum node requirement to 18
+  (d8dc16c9)
+
+## Testing
+- **cli:** Add additional tests
+  (9770812f)
+- **ical2json:**
+  - Fix test and only report src coverage
+  (19dd5046)
+  - switch to use codecov
+  (ceff04ec)
+  - Update checkout and setup-node to v4
+  (52f14b6d)
+  - Update CI to run on Node 18 and 20
+  (4e4b89cc)
+
+## Documentation
+- **readme:** Update to link to codecov
+  (0f80aac9)
+
+
 # 3.2.0 (2023/11/12)
 ## Features
 - **ical2json:** Include definition file
