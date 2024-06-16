@@ -15,14 +15,20 @@ npm install -g ical2json
 
 To convert ics file to json
 
-```
-ical2json ./US-Holiday.ics
+```sh
+$ ical2json ./US-Holiday.ics
 ```
 
 The json output will be written to a `.json` file in the same directory
 
 ```
 ./US-Holiday.json
+```
+
+To write the output to a separate directory, use the `-o` or `--output-dir` option
+
+```sh
+$ ical2json --output-dir ~/destination/directory ./US-Holiday.ics
 ```
 
 File output:
@@ -92,10 +98,10 @@ File output:
   Usage: ical2json [options] [FILES...]
 
   Options:
-
-    -h, --help     output usage information
-    -r, --revert   Revert JSON to ical
-    -V, --version  output the version number
+    -V, --version            output the version number
+    -r, --revert             Revert JSON to ical
+    -o, --output-dir <path>  Output directory
+    -h, --help               display help for command
 ```
 
 Programmatic API
