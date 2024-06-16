@@ -62,5 +62,10 @@
     "require": [
       "ts-node/register"
     ]
+  },
+  "nyc": {
+    "include": [
+      "src"
+    ]
   }
 }

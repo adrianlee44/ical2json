@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es2020",
+    "module": "Node16",
     "outDir": "./build",
     "strict": true,
     "rootDirs": ["src", "test"],
