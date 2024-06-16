@@ -1,17 +1,30 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import {convert, revert, IcalObject} from './ical2json';
+import {untildify} from './utils';
 
 const cwd = process.cwd();
 
 interface Ical2JsonOptions {
-  revert: boolean;
+  revert?: boolean;
+  outputDir?: string;
 }
 
 export default function (
   files: string[] = [],
   options: Ical2JsonOptions
 ): boolean {
+  let outputDir = '';
+  if (options.outputDir) {
+    outputDir = path.resolve(cwd, untildify(options.outputDir));
+    const outputDirStat = fs.statSync(outputDir, {throwIfNoEntry: false});
+
+    if (!outputDirStat || !outputDirStat.isDirectory()) {
+      console.error(`ical2json: ${outputDir}: Invalid directory`);
+      return false;
+    }
+  }
+
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const filePath = path.resolve(cwd, file);
@@ -45,7 +58,7 @@ export default function (
     if (!output) continue;
 
     const basename = path.basename(filePath, ext);
-    const dirname = path.dirname(filePath);
+    const dirname = outputDir || path.dirname(filePath);
     const compiledExt = isConvert ? '.json' : '.ics';
     const writePath = path.join(dirname, basename) + compiledExt;
 

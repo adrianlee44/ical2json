@@ -41,6 +41,15 @@ test.before(async (t) => {
   t.context.directoryPath = await temporaryDirectory();
 });
 
+test('when the output directory is invalid', (t) => {
+  t.false(
+    run([t.context.testIcsFile], {
+      outputDir: '/does/not/exist',
+      revert: false,
+    })
+  );
+});
+
 test('read ics and write json', (t) => {
   const doesNotExistFile = join(t.context.directoryPath, 'doesNotExist.ics');
   run([doesNotExistFile, t.context.wrongExtFile, t.context.testIcsFile], {
@@ -51,6 +60,14 @@ test('read ics and write json', (t) => {
   t.true(existsSync(outputFilePath(t.context.testIcsFile, 'test.json')));
 });
 
+test('read ics and write json to output directory', (t) => {
+  run([t.context.testIcsFile], {
+    outputDir: t.context.directoryPath,
+    revert: false,
+  });
+  t.true(existsSync(join(t.context.directoryPath, 'test.json')));
+});
+
 test('read .json and write ics', (t) => {
   run([t.context.testJsonFile], {
     revert: true,
@@ -58,4 +75,12 @@ test('read .json and write ics', (t) => {
   const outputIcs = outputFilePath(t.context.testIcsFile, 'test.ics');
   t.true(existsSync(outputIcs));
   t.is(readFileSync(outputIcs).toString(), t.context.eventString);
+});
+
+test('read .json and write ics to output directory', (t) => {
+  run([t.context.testJsonFile], {
+    outputDir: t.context.directoryPath,
+    revert: true,
+  });
+  t.true(existsSync(join(t.context.directoryPath, 'test-1.ics')));
 });

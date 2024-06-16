@@ -12,15 +12,21 @@ const path = require('path');
 const dir = path.join(__dirname, '../');
 const pkg = require(dir + 'package.json');
 const {program} = require('commander');
+const {exit} = require('process');
 
 program
   .version(pkg.version)
   .option('-r, --revert', 'Revert JSON to ical')
+  .option('-o, --output-dir <path>', 'Output directory')
   .usage('[options] [FILES...]')
   .parse(process.argv);
 
 if (program.args.length) {
-  require(dir + 'build/cli.js').default(program.args, program.opts());
+  const output = require(dir + 'build/cli.js').default(
+    program.args,
+    program.opts()
+  );
+  exit(Number(!output));
 } else {
   // eslint-disable-next-line no-console
   console.log(program.helpInformation());

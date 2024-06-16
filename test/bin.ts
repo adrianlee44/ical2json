@@ -9,6 +9,7 @@ interface TestContext {
   wrongExtFile: string;
   testJsonFile: string;
   directoryPath: string;
+  outputDir: string;
 }
 
 const test = anyTest as TestFn<TestContext>;
@@ -40,6 +41,23 @@ test.before(async (t) => {
   t.context.directoryPath = await temporaryDirectory();
 });
 
+test('when the output directory is invalid', async (t) => {
+  const {$, ExecaError} = await import('execa');
+
+  const error = await t.throwsAsync(
+    async () => {
+      await $`./bin/ical2json --output-dir /does/not/exist ${t.context.testIcsFile}`;
+    },
+    {
+      instanceOf: ExecaError,
+    }
+  );
+  t.is(error.exitCode, 1);
+  t.true(
+    error.stack.indexOf('ical2json: /does/not/exist: Invalid directory') > -1
+  );
+});
+
 test('read ics and write json', async (t) => {
   const {execa} = await import('execa');
 
@@ -52,6 +70,13 @@ test('read ics and write json', async (t) => {
   t.false(existsSync(outputFilePath(doesNotExistFile, 'doesNotExist.json')));
   t.false(existsSync(outputFilePath(t.context.wrongExtFile, 'wrongExt.json')));
   t.true(existsSync(outputFilePath(t.context.testIcsFile, 'test.json')));
+});
+
+test('read ics and write json to output directory', async (t) => {
+  const {$} = await import('execa');
+
+  await $`./bin/ical2json --output-dir ${t.context.directoryPath} ${t.context.testIcsFile}`;
+  t.true(existsSync(join(t.context.directoryPath, 'test.json')));
 });
 
 test('read .json and write ics', async (t) => {
