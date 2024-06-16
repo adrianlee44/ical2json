@@ -6,6 +6,7 @@ import anyTest, {TestFn} from 'ava';
 
 interface TestContext {
   eventString: string;
+  emptyFile: string;
   testIcsFile: string;
   wrongExtFile: string;
   testJsonFile: string;
@@ -25,6 +26,8 @@ test.before(async (t) => {
   t.context.eventString =
     "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to \n know more about New Year's Day. Like us on Facebook: http://fb.com/calenda\n rlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
   const eventObjs = convert(t.context.eventString);
+
+  t.context.emptyFile = await temporaryWrite('', {name: 'empty.ics'});
 
   t.context.testIcsFile = await temporaryWrite(t.context.eventString, {
     name: 'test.ics',
@@ -48,6 +51,15 @@ test('when the output directory is invalid', (t) => {
       revert: false,
     })
   );
+});
+
+test('when the files array is undefined', (t) => {
+  t.true(run(undefined, {revert: false}));
+});
+
+test('read empty ics file', (t) => {
+  run([t.context.emptyFile], {revert: false});
+  t.false(existsSync(outputFilePath(t.context.emptyFile, 'test.json')));
 });
 
 test('read ics and write json', (t) => {
