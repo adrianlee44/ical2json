@@ -1,3 +1,10 @@
+# 4.0.1 (2024/7/13)
+## Bug Fixes
+- **build:** Fix utils.js not being included
+  (09cf8cc4,
+   #58)
+
+
 # 4.0.0 (2024/6/16)
 ## Features
 - **ical2json**: Add output-dir option to specify output directory
