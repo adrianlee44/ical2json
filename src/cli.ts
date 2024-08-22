@@ -8,6 +8,7 @@ const cwd = process.cwd();
 interface Ical2JsonOptions {
   revert?: boolean;
   outputDir?: string;
+  stdout?: boolean;
 }
 
 export default function (
@@ -62,7 +63,12 @@ export default function (
     const compiledExt = isConvert ? '.json' : '.ics';
     const writePath = path.join(dirname, basename) + compiledExt;
 
-    fs.writeFileSync(writePath, output);
+    if (options.stdout) {
+      console.log(output)
+    }
+    else {
+      fs.writeFileSync(writePath, output);
+    }
   }
 
   return true;

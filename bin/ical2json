@@ -18,6 +18,7 @@ program
   .version(pkg.version)
   .option('-r, --revert', 'Revert JSON to ical')
   .option('-o, --output-dir <path>', 'Output directory')
+  .option('-s, --stdout', 'Output to stdout')
   .usage('[options] [FILES...]')
   .parse(process.argv);
 
