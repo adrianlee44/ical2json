@@ -3,9 +3,12 @@ import {existsSync, readFileSync} from 'fs';
 import run from '../src/cli';
 import {convert} from '../src/ical2json';
 import anyTest, {TestFn} from 'ava';
+import sinon from 'sinon';
 
 interface TestContext {
+  consoleSpy: sinon.SinonSpy;
   eventString: string;
+  eventObjs: Record<string, unknown>;
   emptyFile: string;
   testIcsFile: string;
   wrongExtFile: string;
@@ -23,9 +26,11 @@ const outputFilePath = (source: string, filename: string) => {
 test.before(async (t) => {
   const {temporaryWrite, temporaryDirectory} = await import('tempy');
 
+  t.context.consoleSpy = sinon.spy(console, 'log');
+
   t.context.eventString =
     "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to \n know more about New Year's Day. Like us on Facebook: http://fb.com/calenda\n rlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
-  const eventObjs = convert(t.context.eventString);
+  t.context.eventObjs = convert(t.context.eventString);
 
   t.context.emptyFile = await temporaryWrite('', {name: 'empty.ics'});
 
@@ -36,7 +41,7 @@ test.before(async (t) => {
     name: 'wrongExt.data',
   });
   t.context.testJsonFile = await temporaryWrite(
-    JSON.stringify(eventObjs, null, '  '),
+    JSON.stringify(t.context.eventObjs, null, '  '),
     {
       name: 'test-1.json',
     }
@@ -95,4 +100,15 @@ test('read .json and write ics to output directory', (t) => {
     revert: true,
   });
   t.true(existsSync(join(t.context.directoryPath, 'test-1.ics')));
+});
+
+test('read ics and output to stdout', (t) => {
+  run([t.context.testIcsFile], {revert: false, stdout: true});
+  const jsonOutput = JSON.stringify(t.context.eventObjs, null, '  ');
+  t.true(t.context.consoleSpy.calledWith(jsonOutput));
+});
+
+test('read json and output to stdout', (t) => {
+  run([t.context.testJsonFile], {revert: true, stdout: true});
+  t.true(t.context.consoleSpy.calledWith(t.context.eventString));
 });
