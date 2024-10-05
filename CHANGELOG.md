@@ -1,3 +1,9 @@
+# v4.1.0 (2024/10/5)
+## Features
+- **ical2json**: Add stdout option
+  (87e8adf,
+   #60)
+
 # 4.0.1 (2024/7/13)
 ## Bug Fixes
 - **build:** Fix utils.js not being included
