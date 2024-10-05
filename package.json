@@ -39,7 +39,7 @@
   "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
-    "@types/node": "^20.14.2",
+    "@types/node": "^22.7.4",
     "@types/sinon": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
