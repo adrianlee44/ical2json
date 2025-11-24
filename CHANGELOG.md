@@ -1,3 +1,9 @@
+# 4.1.1 (2025/11/23)
+## Testing
+- **workflows:** Add Node 22 and 24
+  (87e8687c)
+
+
 # v4.1.0 (2024/10/5)
 ## Features
 - **ical2json**: Add stdout option
