@@ -1,3 +1,6 @@
+# v4.1.2 (2026/1/20)
+- **ical2json**: Fix development vulnerabilities
+
 # 4.1.1 (2025/11/23)
 ## Testing
 - **workflows:** Add Node 22 and 24
