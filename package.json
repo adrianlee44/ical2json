@@ -39,8 +39,8 @@
   "license": "MIT",
   "bin": "bin/ical2json",
   "devDependencies": {
-    "@types/node": "^22.7.4",
-    "@types/sinon": "^17.0.3",
+    "@types/node": "^25.0.9",
+    "@types/sinon": "^21.0.0",
     "ava": "^6.1.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -51,7 +51,7 @@
     "sinon": "^19.0.2",
     "tempy": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.34.0"
   },
   "dependencies": {
