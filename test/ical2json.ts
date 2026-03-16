@@ -1,4 +1,4 @@
-import {convert, revert} from '../src/ical2json';
+import {convert, revert, IcalObject} from '../src/ical2json';
 import test from 'ava';
 
 test('converting VEVENT', (t) => {
@@ -15,7 +15,7 @@ test('missing :', (t) => {
   t.not(eventObjs.VEVENT, undefined);
   t.false(
     Object.prototype.hasOwnProperty.call(
-      eventObjs.VEVENT[0],
+      (eventObjs.VEVENT as IcalObject[])[0],
       'DTSTART;VALUE=DATE'
     )
   );
@@ -70,6 +70,21 @@ test('converting VTIMEZONE with STANDARD and DAYLIGHT', (t) => {
     'BEGIN:VCALENDAR\r\nPRODID:-//RDU Software//NONSGML HandCal//EN\r\nVERSION:2.0\r\nBEGIN:VTIMEZONE\r\nTZID:America/New_York\r\nBEGIN:STANDARD\r\nDTSTART:19981025T020000\r\nTZOFFSETFROM:-0400\r\nTZOFFSETTO:-0500\r\nTZNAME:EST\r\nEND:STANDARD\r\nBEGIN:DAYLIGHT\r\nDTSTART:19990404T020000\r\nTZOFFSETFROM:-0500\r\nTZOFFSETTO:-0400\r\nTZNAME:EDT\r\nEND:DAYLIGHT\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTAMP:19980309T231000Z\r\nUID:guid-1.example.com\r\nORGANIZER:mailto:mrbig@example.com\r\nATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:\r\n mailto:employee-A@example.com\r\nDESCRIPTION:Project XYZ Review Meeting\r\nCATEGORIES:MEETING\r\nCLASS:PUBLIC\r\nCREATED:19980309T130000Z\r\nSUMMARY:XYZ Project Review\r\nDTSTART;TZID=America/New_York:19980312T083000\r\nDTEND;TZID=America/New_York:19980312T093000\r\nLOCATION:1CP Conference Room 4350\r\nEND:VEVENT\r\nEND:VCALENDAR';
   const eventObjs = convert(eventString);
   t.snapshot(eventObjs);
+});
+
+test('parameter parsing', (t) => {
+  const line = 'DTSTART;TZID=America/New_York;VALUE=DATE:19980312T083000';
+  const result = convert(line);
+  t.deepEqual(result, {
+    DTSTART: {_: '19980312T083000', TZID: 'America/New_York', VALUE: 'DATE'},
+  });
+});
+
+test('round-trip parameterized property', (t) => {
+  const input =
+    'BEGIN:VEVENT\nDTSTART;TZID=America/New_York:19980312T083000\nEND:VEVENT';
+  const output = revert(convert(input));
+  t.deepEqual(convert(output), convert(input));
 });
 
 test('RFC example 1', (t) => {

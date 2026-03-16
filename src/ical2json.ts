@@ -1,14 +1,13 @@
-// Make sure lines are splited correctly
-// http://stackoverflow.com/questions/1155678/javascript-string-newline-character
-const NEW_LINE = /\r\n|\n|\r/;
-const COLON = ':';
-// const COMMA = ",";
-// const DQUOTE = "\"";
-// const SEMICOLON = ";";
-const SPACE = ' ';
+import {maybeFoldLine, reconstructParam} from './utils';
+import {COLON, NEW_LINE, SEMICOLON, SPACE} from './constants';
+
+export interface IcalParam {
+  _: string;
+  [key: string]: string;
+}
 
 export interface IcalObject {
-  [key: string]: string | string[] | IcalObject[];
+  [key: string]: string | string[] | IcalObject[] | IcalParam | IcalParam[];
 }
 
 /**
@@ -28,8 +27,28 @@ function convert(source: string): IcalObject {
     let currentValue = '';
 
     const line = lines[i];
+    // Folded lines
     if (line.charAt(0) === SPACE) {
-      currentObj[currentKey] += line.substring(1);
+      const existing = currentObj[currentKey];
+      // Continuation of a single IcalParam — append to its value
+      if (
+        existing !== null &&
+        typeof existing === 'object' &&
+        !Array.isArray(existing)
+      ) {
+        (existing as IcalParam)._ += line.substring(1);
+      } else if (
+        // Continuation of the last IcalParam in an array
+        Array.isArray(existing) &&
+        existing.length > 0 &&
+        typeof existing[0] === 'object' &&
+        '_' in (existing[0] as IcalParam)
+      ) {
+        (existing as IcalParam[])[existing.length - 1]._ += line.substring(1);
+      } else {
+        // Continuation of a plain string value
+        currentObj[currentKey] += line.substring(1);
+      }
     } else {
       const splitAt = line.indexOf(COLON);
 
@@ -55,15 +74,41 @@ function convert(source: string): IcalObject {
           currentObj = parentObj;
           parentObj = parents.pop() as IcalObject;
           break;
-        default:
-          if (currentObj[currentKey]) {
-            if (!Array.isArray(currentObj[currentKey])) {
-              currentObj[currentKey] = [currentObj[currentKey]] as string[];
+        default: {
+          const semicolonAt = currentKey.indexOf(SEMICOLON);
+          if (semicolonAt >= 0) {
+            const segments = currentKey.split(SEMICOLON);
+            currentKey = segments[0];
+            const param: IcalParam = {_: currentValue};
+            for (let j = 1; j < segments.length; j++) {
+              const eqAt = segments[j].indexOf('=');
+              if (eqAt >= 0) {
+                param[segments[j].substring(0, eqAt)] = segments[j].substring(
+                  eqAt + 1
+                );
+              }
             }
-            (currentObj[currentKey] as string[]).push(currentValue);
+            if (currentObj[currentKey]) {
+              if (!Array.isArray(currentObj[currentKey])) {
+                currentObj[currentKey] = [
+                  currentObj[currentKey],
+                ] as IcalParam[];
+              }
+              (currentObj[currentKey] as IcalParam[]).push(param);
+            } else {
+              currentObj[currentKey] = param;
+            }
           } else {
-            (currentObj[currentKey] as string) = currentValue;
+            if (currentObj[currentKey]) {
+              if (!Array.isArray(currentObj[currentKey])) {
+                currentObj[currentKey] = [currentObj[currentKey]] as string[];
+              }
+              (currentObj[currentKey] as string[]).push(currentValue);
+            } else {
+              (currentObj[currentKey] as string) = currentValue;
+            }
           }
+        }
       }
     }
   }
@@ -74,30 +119,37 @@ function convert(source: string): IcalObject {
  * Take JSON, revert back to ical
  */
 function revert(object: IcalObject): string {
-  const lines = [];
+  const lines: string[] = [];
 
   for (const key in object) {
     const value = object[key];
     if (Array.isArray(value)) {
-      if (key === 'RDATE') {
+      if (value.length === 0) {
+        // nothing to emit
+      } else if (typeof value[0] === 'string') {
+        // string array (EXDATE, RDATE, ...)
         (value as string[]).forEach((item: string) => {
-          lines.push(key + ':' + item);
+          lines.push(key + COLON + item);
+        });
+      } else if ('_' in (value[0] as IcalParam)) {
+        // IcalParam[]
+        (value as IcalParam[]).forEach((param: IcalParam) => {
+          maybeFoldLine(lines, reconstructParam(key, param));
         });
       } else {
+        // IcalObject[]
         (value as IcalObject[]).forEach((item: IcalObject) => {
           lines.push('BEGIN:' + key);
           lines.push(revert(item));
           lines.push('END:' + key);
         });
       }
+    } else if (typeof value === 'object' && '_' in (value as IcalParam)) {
+      // single IcalParam
+      maybeFoldLine(lines, reconstructParam(key, value as IcalParam));
     } else {
-      let fullLine = key + ':' + value;
-      do {
-        // According to ical spec, lines of text should be no longer
-        // than 75 octets
-        lines.push(fullLine.substring(0, 75));
-        fullLine = SPACE + fullLine.substring(75);
-      } while (fullLine.length > 1);
+      // plain string
+      maybeFoldLine(lines, key + COLON + value);
     }
   }
 
