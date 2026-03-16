@@ -65,6 +65,13 @@ test('the parent object is popping from the stack', (t) => {
   t.snapshot(eventObjs);
 });
 
+test('converting VTIMEZONE with STANDARD and DAYLIGHT', (t) => {
+  const eventString =
+    'BEGIN:VCALENDAR\r\nPRODID:-//RDU Software//NONSGML HandCal//EN\r\nVERSION:2.0\r\nBEGIN:VTIMEZONE\r\nTZID:America/New_York\r\nBEGIN:STANDARD\r\nDTSTART:19981025T020000\r\nTZOFFSETFROM:-0400\r\nTZOFFSETTO:-0500\r\nTZNAME:EST\r\nEND:STANDARD\r\nBEGIN:DAYLIGHT\r\nDTSTART:19990404T020000\r\nTZOFFSETFROM:-0500\r\nTZOFFSETTO:-0400\r\nTZNAME:EDT\r\nEND:DAYLIGHT\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTAMP:19980309T231000Z\r\nUID:guid-1.example.com\r\nORGANIZER:mailto:mrbig@example.com\r\nATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:\r\n mailto:employee-A@example.com\r\nDESCRIPTION:Project XYZ Review Meeting\r\nCATEGORIES:MEETING\r\nCLASS:PUBLIC\r\nCREATED:19980309T130000Z\r\nSUMMARY:XYZ Project Review\r\nDTSTART;TZID=America/New_York:19980312T083000\r\nDTEND;TZID=America/New_York:19980312T093000\r\nLOCATION:1CP Conference Room 4350\r\nEND:VEVENT\r\nEND:VCALENDAR';
+  const eventObjs = convert(eventString);
+  t.snapshot(eventObjs);
+});
+
 test('RFC example 1', (t) => {
   const eventString =
     'BEGIN:VCALENDAR\nPRODID:-//xyz Corp//NONSGML PDA Calendar Version 1.0//EN\nVERSION:2.0\nBEGIN:VEVENT\nDTSTAMP:19960704T120000Z\nUID:uid1@example.com\nORGANIZER:mailto:jsmith@example.com\nDTSTART:19960918T143000Z\nDTEND:19960920T220000Z\nSTATUS:CONFIRMED\nCATEGORIES:CONFERENCE\nSUMMARY:Networld+Interop Conference\nDESCRIPTION:Networld+Interop Conference\n  and Exhibit\n  Atlanta World Congress Center\n  Atlanta, Georgia\nEND:VEVENT\nEND:VCALENDAR';
