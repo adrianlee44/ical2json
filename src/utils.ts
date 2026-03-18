@@ -1,6 +1,12 @@
 import * as os from 'os';
 import {IcalParam} from './ical2json';
-import {COLON, CONTENT_LINE_LENGTH_FOLDED, SEMICOLON, SPACE} from './constants';
+import {
+  COLON,
+  CONTENT_LINE_LENGTH_FOLDED,
+  EQUAL,
+  SEMICOLON,
+  SPACE,
+} from './constants';
 
 const homeDir = os.homedir();
 
@@ -23,7 +29,7 @@ export function maybeFoldLine(lines: string[], fullLine: string): void {
 export function reconstructParam(key: string, param: IcalParam): string {
   const paramParts = Object.keys(param)
     .filter((k) => k !== '_')
-    .map((k) => k + '=' + param[k]);
+    .map((k) => k + EQUAL + param[k]);
   const prefix =
     paramParts.length > 0 ? key + SEMICOLON + paramParts.join(SEMICOLON) : key;
   return prefix + COLON + param._;

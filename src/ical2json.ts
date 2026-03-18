@@ -1,5 +1,5 @@
 import {maybeFoldLine, reconstructParam} from './utils';
-import {COLON, NEW_LINE, SEMICOLON, SPACE} from './constants';
+import {COLON, EQUAL, NEW_LINE, SEMICOLON, SPACE} from './constants';
 
 export interface IcalParam {
   _: string;
@@ -81,7 +81,7 @@ function convert(source: string): IcalObject {
             currentKey = segments[0];
             const param: IcalParam = {_: currentValue};
             for (let j = 1; j < segments.length; j++) {
-              const eqAt = segments[j].indexOf('=');
+              const eqAt = segments[j].indexOf(EQUAL);
               if (eqAt >= 0) {
                 param[segments[j].substring(0, eqAt)] = segments[j].substring(
                   eqAt + 1

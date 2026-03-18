@@ -6,6 +6,7 @@ export const COLON = ':';
 // const DQUOTE = "\"";
 export const SEMICOLON = ';';
 export const SPACE = ' ';
+export const EQUAL = '=';
 
 // RFC 5545 §3.1 recommends folding content lines at 75 octets.
 // https://datatracker.ietf.org/doc/html/rfc5545#section-3.1
