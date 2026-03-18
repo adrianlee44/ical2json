@@ -93,6 +93,27 @@ test('round-trip non-multi-value property with comma', (t) => {
   t.deepEqual(convert(revert(convert(input))), convert(input));
 });
 
+test('Apple x-property with x-params is parsed correctly', (t) => {
+  const line =
+    'X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=1 Infinite Loop;X-APPLE-RADIUS=100;X-TITLE=Apple HQ:geo:37.3317,-122.0307';
+  t.deepEqual(convert(line), {
+    'X-APPLE-STRUCTURED-LOCATION': {
+      _: 'geo:37.3317,-122.0307',
+      VALUE: 'URI',
+      'X-ADDRESS': '1 Infinite Loop',
+      'X-APPLE-RADIUS': '100',
+      'X-TITLE': 'Apple HQ',
+    },
+  });
+});
+
+test('x-param is parsed as a parameter', (t) => {
+  const line = 'DTSTART;X-FOO=bar;VALUE=DATE:19980312T083000';
+  t.deepEqual(convert(line), {
+    DTSTART: {_: '19980312T083000', 'X-FOO': 'bar', VALUE: 'DATE'},
+  });
+});
+
 test('parameter parsing', (t) => {
   const line = 'DTSTART;TZID=America/New_York;VALUE=DATE:19980312T083000';
   const result = convert(line);
