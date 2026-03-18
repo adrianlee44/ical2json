@@ -1,5 +1,14 @@
 import {maybeFoldLine, reconstructParam} from './utils';
-import {COLON, EQUAL, NEW_LINE, SEMICOLON, SPACE} from './constants';
+import {
+  COLON,
+  COMMA,
+  COMMA_SPLIT,
+  EQUAL,
+  MULTI_VALUE_PROPERTIES,
+  NEW_LINE,
+  SEMICOLON,
+  SPACE,
+} from './constants';
 
 export interface IcalParam {
   _: string;
@@ -99,13 +108,25 @@ function convert(source: string): IcalObject {
               currentObj[currentKey] = param;
             }
           } else {
-            if (currentObj[currentKey]) {
-              if (!Array.isArray(currentObj[currentKey])) {
-                currentObj[currentKey] = [currentObj[currentKey]] as string[];
+            const values = MULTI_VALUE_PROPERTIES.has(currentKey)
+              ? currentValue.split(COMMA_SPLIT)
+              : null;
+
+            if (values && values.length > 1) {
+              if (Array.isArray(currentObj[currentKey])) {
+                (currentObj[currentKey] as string[]).push(...values);
+              } else {
+                currentObj[currentKey] = values;
               }
-              (currentObj[currentKey] as string[]).push(currentValue);
             } else {
-              (currentObj[currentKey] as string) = currentValue;
+              if (currentObj[currentKey]) {
+                if (!Array.isArray(currentObj[currentKey])) {
+                  currentObj[currentKey] = [currentObj[currentKey]] as string[];
+                }
+                (currentObj[currentKey] as string[]).push(currentValue);
+              } else {
+                (currentObj[currentKey] as string) = currentValue;
+              }
             }
           }
         }
@@ -127,10 +148,15 @@ function revert(object: IcalObject): string {
       if (value.length === 0) {
         // nothing to emit
       } else if (typeof value[0] === 'string') {
-        // string array (EXDATE, RDATE, ...)
-        (value as string[]).forEach((item: string) => {
-          lines.push(key + COLON + item);
-        });
+        if (MULTI_VALUE_PROPERTIES.has(key)) {
+          // Emit as comma-joined single line
+          maybeFoldLine(lines, key + COLON + (value as string[]).join(COMMA));
+        } else {
+          // Emit as separate content lines (custom/duplicate properties)
+          (value as string[]).forEach((item: string) => {
+            lines.push(key + COLON + item);
+          });
+        }
       } else if ('_' in (value[0] as IcalParam)) {
         // IcalParam[]
         (value as IcalParam[]).forEach((param: IcalParam) => {

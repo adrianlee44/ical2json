@@ -25,7 +25,7 @@ test('converting and reverting result in same content', (t) => {
   const normalize = (text: string) => text.replace(/\n\s?/g, '');
 
   const sampleContent =
-    "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nRDATE:20111213T124028Z\nRDATE:20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
+    "BEGIN:VEVENT\nDTSTART;VALUE=DATE:20130101\nDTEND;VALUE=DATE:20130102\nDTSTAMP:20111213T124028Z\nRDATE:20111213T124028Z,20111213T124028Z\nUID:9d6fa48343f70300fe3109efe@calendarlabs.com\nCREATED:20111213T123901Z\nDESCRIPTION:Visit http://calendarlabs.com/holidays/us/new-years-day.php to kn\n ow more about New Year's Day. Like us on Facebook: http://fb.com/calendarlabs to get updates.\nLAST-MODIFIED:20111213T123901Z\nLOCATION:\nSEQUENCE:0\nSTATUS:CONFIRMED\nSUMMARY:New Year's Day\nTRANSP:TRANSPARENT\nEND:VEVENT";
   const output = revert(convert(sampleContent));
   t.is(normalize(output), normalize(sampleContent));
 });
@@ -70,6 +70,27 @@ test('converting VTIMEZONE with STANDARD and DAYLIGHT', (t) => {
     'BEGIN:VCALENDAR\r\nPRODID:-//RDU Software//NONSGML HandCal//EN\r\nVERSION:2.0\r\nBEGIN:VTIMEZONE\r\nTZID:America/New_York\r\nBEGIN:STANDARD\r\nDTSTART:19981025T020000\r\nTZOFFSETFROM:-0400\r\nTZOFFSETTO:-0500\r\nTZNAME:EST\r\nEND:STANDARD\r\nBEGIN:DAYLIGHT\r\nDTSTART:19990404T020000\r\nTZOFFSETFROM:-0500\r\nTZOFFSETTO:-0400\r\nTZNAME:EDT\r\nEND:DAYLIGHT\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTAMP:19980309T231000Z\r\nUID:guid-1.example.com\r\nORGANIZER:mailto:mrbig@example.com\r\nATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:\r\n mailto:employee-A@example.com\r\nDESCRIPTION:Project XYZ Review Meeting\r\nCATEGORIES:MEETING\r\nCLASS:PUBLIC\r\nCREATED:19980309T130000Z\r\nSUMMARY:XYZ Project Review\r\nDTSTART;TZID=America/New_York:19980312T083000\r\nDTEND;TZID=America/New_York:19980312T093000\r\nLOCATION:1CP Conference Room 4350\r\nEND:VEVENT\r\nEND:VCALENDAR';
   const eventObjs = convert(eventString);
   t.snapshot(eventObjs);
+});
+
+test('converting comma-separated multi-value property', (t) => {
+  const line = 'CATEGORIES:APPOINTMENT,EDUCATION';
+  t.deepEqual(convert(line), {CATEGORIES: ['APPOINTMENT', 'EDUCATION']});
+});
+
+test('round-trip comma-separated multi-value property', (t) => {
+  const input = 'BEGIN:VEVENT\nCATEGORIES:APPOINTMENT,EDUCATION\nEND:VEVENT';
+  t.deepEqual(convert(revert(convert(input))), convert(input));
+});
+
+test('comma in non-multi-value property is preserved as string', (t) => {
+  const line = 'SUMMARY:Dinner, drinks, and discussion';
+  t.deepEqual(convert(line), {SUMMARY: 'Dinner, drinks, and discussion'});
+});
+
+test('round-trip non-multi-value property with comma', (t) => {
+  const input =
+    'BEGIN:VEVENT\nSUMMARY:Dinner, drinks, and discussion\nEND:VEVENT';
+  t.deepEqual(convert(revert(convert(input))), convert(input));
 });
 
 test('parameter parsing', (t) => {
