@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:adrianlee44/ical2json.git"
+    "url": "git+ssh://git@github.com/adrianlee44/ical2json.git"
   },
   "bugs": {
     "url": "https://github.com/adrianlee44/ical2json/issues"
@@ -38,7 +38,9 @@
   },
   "author": "Adrian Lee",
   "license": "MIT",
-  "bin": "bin/ical2json",
+  "bin": {
+    "ical2json": "bin/ical2json"
+  },
   "devDependencies": {
     "@types/node": "^25.5.0",
     "@types/sinon": "^21.0.0",
