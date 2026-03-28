@@ -1,3 +1,6 @@
+# 4.1.3 (2026/3/27)
+- **ical2json**: Vulnerability updates
+
 # v4.1.2 (2026/1/20)
 - **ical2json**: Fix development vulnerabilities
 
