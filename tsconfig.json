@@ -3,6 +3,7 @@
     "target": "es2022",
     "module": "NodeNext",
     "outDir": "./build",
+    "rootDir": "./src",
     "strict": true,
     "rootDirs": ["src", "test"],
     "types": ["node"],
