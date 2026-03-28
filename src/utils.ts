@@ -1,4 +1,4 @@
-import * as os from 'os';
+import os from 'node:os';
 import {IcalParam} from './ical2json';
 import {
   COLON,
