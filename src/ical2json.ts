@@ -33,7 +33,7 @@ function convert(source: string): IcalObject {
   let currentKey = '';
 
   for (let i = 0; i < lines.length; i++) {
-    let currentValue = '';
+    let currentValue: string;
 
     const line = lines[i];
     // Folded lines
