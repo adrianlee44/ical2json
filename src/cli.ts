@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
-import {convert, revert, IcalObject} from './ical2json';
-import {untildify} from './utils';
+import {convert, revert, IcalObject} from './ical2json.js';
+import {untildify} from './utils.js';
 
 const cwd = process.cwd();
 

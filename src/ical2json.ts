@@ -1,4 +1,4 @@
-import {maybeFoldLine, reconstructParam} from './utils';
+import {maybeFoldLine, reconstructParam} from './utils.js';
 import {
   COLON,
   COMMA,
@@ -8,7 +8,7 @@ import {
   NEW_LINE,
   SEMICOLON,
   SPACE,
-} from './constants';
+} from './constants.js';
 
 export interface IcalParam {
   _: string;

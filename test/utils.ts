@@ -1,4 +1,4 @@
-import {untildify} from '../src/utils';
+import {untildify} from '../src/utils.js';
 import test from 'ava';
 
 test('untildify', (t) => {

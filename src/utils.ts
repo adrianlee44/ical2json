@@ -1,12 +1,12 @@
 import os from 'node:os';
-import {IcalParam} from './ical2json';
+import {IcalParam} from './ical2json.js';
 import {
   COLON,
   CONTENT_LINE_LENGTH_FOLDED,
   EQUAL,
   SEMICOLON,
   SPACE,
-} from './constants';
+} from './constants.js';
 
 const homeDir = os.homedir();
 

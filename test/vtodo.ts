@@ -1,7 +1,7 @@
 // VTODO component tests
 // https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.2
 
-import {convert, revert} from '../src/ical2json';
+import {convert, revert} from '../src/ical2json.js';
 import test from 'ava';
 
 // Minimal required properties: DTSTAMP and UID

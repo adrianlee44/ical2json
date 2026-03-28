@@ -8,11 +8,13 @@
  * Licensed under the MIT license.
  */
 
-const path = require('path');
-const dir = path.join(__dirname, '../');
-const pkg = require(dir + 'package.json');
-const {program} = require('commander');
-const {exit} = require('process');
+import {readFileSync} from 'node:fs';
+import {dirname, join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {program} from 'commander';
+
+const dir = join(dirname(fileURLToPath(import.meta.url)), '../');
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 
 program
   .version(pkg.version)
@@ -23,11 +25,9 @@ program
   .parse(process.argv);
 
 if (program.args.length) {
-  const output = require(dir + 'build/cli.js').default(
-    program.args,
-    program.opts()
-  );
-  exit(Number(!output));
+  const {default: run} = await import(join(dir, 'build/cli.js'));
+  const output = run(program.args, program.opts());
+  process.exit(Number(!output));
 } else {
   // eslint-disable-next-line no-console
   console.log(program.helpInformation());

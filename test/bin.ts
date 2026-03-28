@@ -1,6 +1,6 @@
 import {existsSync, readFileSync} from 'fs';
 import {join, dirname} from 'path';
-import {convert} from '../src/ical2json';
+import {convert} from '../src/ical2json.js';
 import anyTest, {TestFn} from 'ava';
 
 interface TestContext {

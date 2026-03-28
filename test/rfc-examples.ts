@@ -1,7 +1,7 @@
 // RFC 5545 Appendix C — iCalendar Object Examples
 // https://datatracker.ietf.org/doc/html/rfc5545#autoid-114
 
-import {convert} from '../src/ical2json';
+import {convert} from '../src/ical2json.js';
 import test from 'ava';
 
 // Three-day conference beginning at 2:30 PM UTC September 18, 1996

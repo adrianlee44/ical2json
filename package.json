@@ -2,6 +2,7 @@
   "name": "ical2json",
   "version": "4.1.3",
   "description": "A simple node package to convert ical to JSON",
+  "type": "module",
   "main": "build/ical2json.js",
   "types": "build/ical2json.d.ts",
   "files": [
@@ -66,7 +67,7 @@
       "ts"
     ],
     "nodeArguments": [
-      "--require=tsx/cjs"
+      "--import=tsx"
     ]
   },
   "nyc": {
