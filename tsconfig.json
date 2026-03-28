@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "Node16",
+    "target": "es2022",
+    "module": "NodeNext",
     "outDir": "./build",
     "strict": true,
     "rootDirs": ["src", "test"],
