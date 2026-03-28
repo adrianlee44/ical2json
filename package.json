@@ -7,13 +7,14 @@
   "files": [
     "bin/icaljson",
     "build/cli.js",
+    "build/constants.js",
     "build/ical2json.js",
     "build/ical2json.d.ts",
     "build/utils.js"
   ],
   "scripts": {
     "compile": "tsc",
-    "prepublishOnly": "tsc",
+    "prepublishOnly": "npm run clean; npm run compile",
     "lint": "eslint .",
     "test": "npm run clean; npm run lint; tsc; npm run coverage; npm run report",
     "report": "nyc report --reporter=lcov",
