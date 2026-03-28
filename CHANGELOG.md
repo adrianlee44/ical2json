@@ -1,3 +1,43 @@
+# 5.0.0 (2026/3/28)
+## Features
+- **ical2json:** Add support multiple values properties (9e5ceb35)
+
+## Breaking Changes
+- **ical2json:**
+  -  ical2json is now an ESM package (cf18bec1)
+  -  ical2json has a minimum Node v20 requirement (7ad88d1c)
+  - 
+    Property parameters are now parsed. Previous property such as `DTSTART;TZID=America/New_York:19980714T120000` used to be parsed as `"DTSTART;TZID=America/New_York": "19980714T120000"`.
+
+    It's now parsed and convert to:
+    ```
+    DTSTART: {
+        TZID: 'America/New_York',
+        _: '19980714T120000',
+    },
+    ```
+
+    `_` is the key for the value of the property when the property has parameters.
+
+    (95dfe56c)
+
+## Optimizations
+- **ical2json:**
+  - Clean up * import (2d222ebf)
+  - Move equal to be a constant (e9536d0c)
+
+## Testing
+- **ical2json:**
+  - Add tests for x-param and x-param used by Apple (68250dc0)
+  - Add examples from RFC as test cases (6a3d9014)
+  - Add VTIMEZONE test case (15cc57d6)
+- **vjournal:** Add tests for vjournal (08eadf58)
+- **vtodo:** Add tests for vtodo (5c8ffe41)
+
+## Documentation
+- **README:** Update README (69bce793)
+
+
 # 4.1.3 (2026/3/27)
 - **ical2json**: Vulnerability updates
 
