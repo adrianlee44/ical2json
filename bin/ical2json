@@ -18,15 +18,17 @@ const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url),
 
 program
   .version(pkg.version)
+  .argument('[files...]', 'Input files')
   .option('-o, --output-dir <path>', 'Output directory')
   .option('-r, --revert', 'Revert JSON to ical')
   .option('-s, --stdout', 'Output to stdout')
-  .usage('[options] [FILES...]')
   .parse(process.argv);
 
-if (program.args.length) {
+const files = program.args;
+
+if (files.length) {
   const {default: run} = await import(join(dir, 'build/cli.js'));
-  const output = run(program.args, program.opts());
+  const output = run(files, program.opts());
   process.exit(Number(!output));
 } else {
   // eslint-disable-next-line no-console
