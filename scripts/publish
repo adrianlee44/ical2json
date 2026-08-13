@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+usage() {
+  echo "Usage: $0 <major|minor|patch>" >&2
+  exit 1
+}
+
+bump=${1:-}
+case "$bump" in
+  major|minor|patch) ;;
+  *) usage ;;
+esac
+
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo "Working tree is not clean. Commit or stash changes before publishing." >&2
+  exit 1
+fi
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$current_branch" != "main" ]]; then
+  echo "Must be on main branch to publish (currently on $current_branch)." >&2
+  exit 1
+fi
+
+# Bump version without creating a git commit/tag; lorax needs the tag name below.
+new_version=$(npm version "$bump" --no-git-tag-version)
+tag="$new_version"
+
+echo "Bumping to $tag"
+
+lorax --tag "$tag" --file CHANGELOG.md --prepend
+
+git add package.json package-lock.json CHANGELOG.md
+git commit -m "chore(build): Build $tag"
+git tag -a "$tag" -m "$tag"
+
+git push origin "$current_branch"
+git push origin "$tag"
+
+npm publish
