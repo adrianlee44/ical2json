@@ -4,13 +4,24 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 usage() {
-  echo "Usage: $0 <major|minor|patch>" >&2
+  echo "Usage: $0 <major|minor|patch> [--execute]" >&2
+  echo "  Defaults to a dry run (bumps version and updates CHANGELOG.md locally," >&2
+  echo "  but does not commit, tag, push, or publish). Pass --execute to perform" >&2
+  echo "  the real release." >&2
   exit 1
 }
 
 bump=${1:-}
+mode=${2:-}
 case "$bump" in
   major|minor|patch) ;;
+  *) usage ;;
+esac
+
+dry_run=true
+case "$mode" in
+  "") ;;
+  --execute) dry_run=false ;;
   *) usage ;;
 esac
 
@@ -32,6 +43,21 @@ tag="$new_version"
 echo "Bumping to $tag"
 
 lorax --tag "$tag" --file CHANGELOG.md --prepend
+
+read -rp "Review/edit CHANGELOG.md now if desired, then press enter to continue..."
+
+if [[ "$dry_run" == true ]]; then
+  echo "Dry run: version bumped to $tag and CHANGELOG.md updated locally." >&2
+  echo "Nothing was committed, tagged, pushed, or published." >&2
+  echo "Review the changes, then re-run with --execute to perform the release." >&2
+  exit 0
+fi
+
+read -rp "About to commit, tag, push, and publish $tag. Continue? [y/N] " confirm
+case "$confirm" in
+  y|Y|yes|YES) ;;
+  *) echo "Aborted." >&2; exit 1 ;;
+esac
 
 git add package.json package-lock.json CHANGELOG.md
 git commit -m "chore(build): Build $tag"
