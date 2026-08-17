@@ -1,3 +1,11 @@
+# v5.1.0 (2026/8/16)
+- **ical2json**: Vulnerability patches
+
+## Testing
+- Add Node 26 to test workflow
+  (18e362a6)
+
+
 # 5.0.0 (2026/3/28)
 ## Features
 - **ical2json:** Add support multiple values properties (9e5ceb35)
